@@ -1,0 +1,15 @@
+#!/bin/bash
+
+wget https://get.symfony.com/cli/installer -O - | bash
+
+rm installer
+
+cp ../.symfony/bin/symfony symfony
+
+composer install
+
+npm install
+
+npm run dev
+
+./bdd

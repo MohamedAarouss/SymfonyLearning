@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Home {% endblock title %}
+{% block title %}LPDIOC S4  {% endblock title %}
 
 {% block body %}
 
@@ -9,60 +9,106 @@
             <h1 class="text-center">Bonjour à tous</h1>
         </div>
 
+        <h2 class="text-center">Petit préambule</h2>
+
         <div class="col-12 ">
-            <h1 class="text-center">Récupérer le projet</h1>
+            <ul>
+                <li>
+                    <h4 class="text-left">
+                        1 - Je fork le projet : <a target="_blank" href="https://gitlab.univ-artois.fr/fabien.zimmermann/tps4">https://gitlab.univ-artois.fr/fabien.zimmermann/tps4</a>
+                    </h4>
+                </li>
+                <li>
+                    <h4 class="text-left">
+                        2 - je clone le projet : <a href="#">https://gitlab.univ-artois.fr/%my-name%/tps4</a><br />
+                        <code>git clone https://gitlab.univ-artois.fr/%my-name%/tps4</code>
+                    </h4>
+                </li>
+                <li>
+                    <h4 class="text-left">
+                        3 - J'ajoute une autre origin :<br />
+                        <code>git remote add originprof https://gitlab.univ-artois.fr/fabien.zimmermann/tps4</code>
+                    </h4>
+                </li>
+                <li>
+                    <h4 class="text-left">
+                        4 - Je créer ma propre connexion bdd.<br />
+                        <code>
+                        cp .env env.local<br />
+                        nano .en.local<br />
+                        je change avec mes valeurs :  DATABASE_URL=mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=5.7
+                        </code>
+                    </h4>
+                </li>
+                <li>
+                    <h4 class="text-left">5 - Installation des dépendances.<br />
+                        <code>./install</code>
+                        Si erreur yarn alors<code>./installnpm</code>
+                    </h4>
+                </li>
+                <li>
+                    <h4 class="text-left">6 - Chargement des données et maj de la base de donnée<br />
+                        <code>./bdd</code>
+                    </h4>
+                </li>
+            </ul>
         </div>
-
-
-
-        <code>
-            git fetch origin-prof
-        </code>
-
+    </div>
+        <div class="progress">
+            <div class="progress-bar bg-info" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0"
+                 aria-valuemax="100"></div>
+        </div>
+        <h2 class="text-center">information</h2>
+    <div class="row">
         <div class="col-12 ">
-            <h3 class="text-center">Pour rejoindre le discord : <a href="https://discord.gg/FgcPQnp">merci</a></h3>
+            <h3 class="">Pour rejoindre le discord : <a href="https://discord.gg/FgcPQnp">ici</a></h3>
         </div>
     </div>
     <div class="progress">
-        <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0"
+             aria-valuemax="100"></div>
     </div>
     <div class="row">
         <div class="col-12 ">
-            <h3 class="text-primary">La première règle du fight-club :</h3>
+            <h3 class="text-primary">La première règle du symfofight-club :</h3>
             <h4>Si je cherche des informations/ documentations / ... je vais sur<a
                         href="https://symfony.com/doc/current/index.html#gsc.tab=0"></a> la doc officiel et pas autres
                 part !</h4>
         </div>
     </div>
     <div class="progress">
-        <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0"
+             aria-valuemax="100"></div>
     </div>
     <div class="row">
         <div class="col-12 ">
-            <h3 class="text-primary">La deuxième règle du fight-club :</h3>
+            <h3 class="text-primary">La deuxième règle du symfofight-club :</h3>
             <h4>Si je cherche des informations/ documentations / ... je vais sur <a
                         href="https://symfony.com/doc/current/index.html#gsc.tab=0"></a> la doc officiel et pas autres
                 part !</h4>
         </div>
     </div>
     <div class="progress">
-        <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0"
+             aria-valuemax="100"></div>
     </div>
     <div class="row">
         <div class="col-12 ">
-            <h3 class="text-primary">La troisième règle du fight-club :</h3>
+            <h3 class="text-primary">La troisième règle du symfofight-club :</h3>
             <h4>Si je cherche des informations/ documentations / ... je vais sur<a
                         href="https://symfony.com/doc/current/index.html#gsc.tab=0"></a> la doc officiel et pas autres
                 part !</h4>
         </div>
     </div>
     <div class="progress">
-        <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0"
+             aria-valuemax="100"></div>
     </div>
     <div class="row">
 
         <div class="col-12 text-center">
-            <h3 class="">Doc officiel : <a class="btn btn-primary" href="https://symfony.com/doc/current/index.html#gsc.tab=0">Symfony</a>
+            <h3 class="">Doc officiel : <a class="btn btn-primary"
+                                           href="https://symfony.com/doc/current/index.html#gsc.tab=0">Symfony</a>
             </h3>
         </div>
 
@@ -71,8 +117,11 @@
     </div>
 
     <div class="progress">
-        <div class="progress-bar bg-info" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="progress-bar bg-info" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0"
+             aria-valuemax="100"></div>
     </div>
+    <h2 class="">L'authentification login et la sécurité sur symfony</h2>
+
     <div class="row">
         <div class="col-12 ">
             <h4 class="">
@@ -170,11 +219,36 @@
             {% endverbatim %}
                 </code>
             </h4>
-            <h5>Plus d'info sur la sécurité : <a target="_blank" href="https://symfony.com/doc/current/security.html">doc</a>
+            <h5>Plus d'info sur la sécurité : <a  class="btn btn-success" target="_blank" href="https://symfony.com/doc/current/security.html">doc</a>
             </h5>
             <hr>
             <hr>
-            <h4>On avance ? <a href="{{ path('app_login') }}">Next</a></h4>
+        </div>
+        <div class="col-12 ">
+        <h1>Ce qu'il faut retenir : </h1>
+        <br />
+        <h4>Pour récupérer l'utilisateur connecté  :
+            <code>
+                use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;<br />
+                TokenStorageInterface $tokenStorage;<br />
+                method: getUser()
+            </code>
+        </h4>
+        <h4>Pour récupérer le service qui vas vérifier les droits de l'utilisateur connecté<br />
+            <code>
+                use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;<br />
+                AuthorizationCheckerInterface $authorizationChecker<br />
+                method : isgranted()
+            </code>
+        </h4>
+        <h4>Celui qui fais tout  :
+            <code>
+                use Symfony\Component\Security\Core\Security;<br />
+                Security $security<br />
+                method: getUser() | isGranted
+            </code>
+            </h4>
+        <h4>On avance ? <a href="{{ path('app_login') }}">Next</a></h4>
         </div>
     </div>
 
