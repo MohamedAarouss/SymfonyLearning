@@ -26,6 +26,7 @@
                 <td>{{ character.sex }}</td>
                 <td>{{ character.enabled ? 'Yes' : 'No' }}</td>
                 <td>{{ character.createdAt ? character.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td><a href="{{ path('character_show', {'id': character.id}) }}" class="btn btn-success">Show</a></td>
             </tr>
         {% else %}
             <tr>

@@ -24,4 +24,15 @@ class CharacterController extends AbstractController
             'characters' => $characterRepository->findAll(),
         ]);
     }
+
+    /**
+     * @Route("/{id}/show", name="character_show", methods={"GET"})
+     */
+    public function show(Character $character, CharacterRepository $characterRepository): Response
+    {
+        return $this->render('character/show.html.twig', [
+            'characters' => $characterRepository->findAll(),
+            'character' => $character
+        ]);
+    }
 }

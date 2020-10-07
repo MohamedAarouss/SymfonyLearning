@@ -11,6 +11,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Character
 {
+    const MALE = "Mâle";
+    const FEMELLE = "Femelle";
+    const OTHER = "Other";
+    const ROBOT = "Robot";
+
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
