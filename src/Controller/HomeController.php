@@ -8,12 +8,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     /**
-     * @Route("/", name="home")
+     * @Route("/{id}", name="home", defaults={"id":null}, requirements={"id":"\d"})
      */
-    public function index()
+    public function index($id = null)
     {
-
-        return $this->render('home/index.html.twig');
+        if(isset($id)){
+            return $this->render('home/index'.$id.'.html.twig');
+        }else{
+            return $this->render('home/index.html.twig');
+        }
     }
 
     /**

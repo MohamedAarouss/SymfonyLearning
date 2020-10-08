@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LPDIOC S4  {% endblock title %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-12 ">
+            <h1 class="text-center">Les Voters</h1>
+        </div>
+
+        <div class="col-12 ">
+            <h5>
+                {% verbatim %}
+            <code>
+ <br />
+class WeaponVoter extends Voter<br />
+{<br />
+    private $security;<br />
+<br />
+    public function __construct(Security $security)<br />
+    {<br />
+        $this->security = $security;<br />
+    }<br />
+<br />
+    protected function supports($attribute, $subject)<br />
+    {<br />
+        if(!in_array($attribute, [AppAccess::WEAPON_EDIT, AppAccess::WEAPON_SHOW])){<br />
+            return false;<br />
+        }<br />
+        if(!$subject instanceof Weapon){<br />
+            return false;<br />
+        }<br />
+<br />
+        return true;<br />
+    }<br /><br />
+
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)<br />
+    {<br />
+        $user = $token->getUser();<br />
+<br />
+        if(!$user instanceof User){<br />
+            return false;<br />
+        }<br />
+<br />
+        if(!$subject->getUser() instanceof User){<br />
+            return true;<br />
+        }<br />
+<br />
+        if($this->security->isGranted('ROLE_ADMIN') === true){<br />
+            return true;<br />
+        }<br />
+<br />
+        switch($attribute){<br />
+            case AppAccess::WEAPON_EDIT:<br />
+            case AppAccess::WEAPON_SHOW:<br />
+                return $subject->getUser()->getId() === $user->getId();<br />
+                break;<br />
+        }<br />
+    }<br />
+}<br />
+            </code>
+        </h5>
+        <h5>Utilisation</h5>
+        <h5><code>
+                //methode soft
+                if($this->isGranted(AppAccess::WEAPON_SHOW, $weapon) === false){<br />
+                $this->addFlash('error', 'you cannot access to this object !');<br />
+                return $this->redirectToRoute('weapon_index');<br />
+                }<br />
+                //methode hard<br />
+                $this->denyAccessUnlessGranted(AppAccess::WEAPON_EDIT, $weapon);
+            </code></h5>
+        {% endverbatim %}
+        </div>
+    </div>
+
+{% endblock %}
