@@ -34,8 +34,8 @@
                     <h4 class="text-left">
                         4 - Je crée ma propre connexion bdd.<br />
                         <code>
-                        cp .env env.local<br />
-                        nano .en.local<br />
+                        cp .env .env.local<br />
+                        nano .env.local<br />
                         je change avec mes valeurs :  DATABASE_URL=mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=5.7
                         </code>
                     </h4>
@@ -238,7 +238,7 @@
                 # ...<br />
             <br />
                 role_hierarchy:<br />
-                    ROLE_ADMIN:       ROLE_USER<br />
+                    ROLE_ADMIN:       [ROLE_USER, ROLE_ADMIN ]<br />
                     ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]<br />
             {% endverbatim %}
                 </code>

@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
+ *
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
 class User implements UserInterface
@@ -24,7 +25,7 @@ class User implements UserInterface
     private $username;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="array")
      */
     private $roles = [];
 
