@@ -1,0 +1,9 @@
+{% block flashmessage %}
+    {% for label, messages in app.flashes(['warning', 'error', 'success']) %}
+        {% for message in messages %}
+            <h3 class="text-center alert alert-{{ label }}">
+                {{ message }}
+            </h3>
+        {% endfor %}
+    {% endfor %}
+{% endblock flashmessage %}<br />

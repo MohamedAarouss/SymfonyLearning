@@ -5,6 +5,29 @@
 {% block body %}
 
     <div class="row">
+
+        <div class="col-12">
+            <h5>les flashs Message<br />
+                <code>
+                    {% verbatim %}
+                {% block flashmessage %}<br />
+                <br />
+                    {% for label, messages in app.flashes(['warning', 'error', 'success']) %}<br />
+                        {% for message in messages %}<br />
+                            <h3 class="text-center alert alert-{{ label }}">
+                                {{ message }}<br />
+                            </h3><br />
+                        {% endfor %}<br />
+                    {% endfor %}<br />
+                <br />
+                {% endblock flashmessage %}<br />
+                {% endverbatim %}
+                    <br />
+                </code>
+            </h5>
+        </div>
+
+
         <div class="col-12 ">
             <h1 class="text-center">Les Voters</h1>
         </div>

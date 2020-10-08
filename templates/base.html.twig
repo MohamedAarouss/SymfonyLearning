@@ -17,6 +17,9 @@
         {% block menu %}
             {% include 'menu.html.twig' %}
         {% endblock %}
+
+        {% include 'alert.html.twig' %}
+
         {% block body %}{% endblock %}
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}

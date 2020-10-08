@@ -12,6 +12,8 @@ class HomeController extends AbstractController
      */
     public function index($id = null)
     {
+        $this->addFlash('success', "coucou");
+
         if(isset($id)){
             return $this->render('home/index'.$id.'.html.twig');
         }else{
