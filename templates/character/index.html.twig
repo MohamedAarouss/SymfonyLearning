@@ -2,20 +2,21 @@
 
 {% block title %}Character index{% endblock %}
 
+
 {% block body %}
     <h1>Character index</h1>
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Sex</th>
-                <th>Enabled</th>
-                <th>CreatedAt</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Sex</th>
+            <th>Enabled</th>
+            <th>CreatedAt</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for character in characters %}
@@ -26,7 +27,13 @@
                 <td>{{ character.sex }}</td>
                 <td>{{ character.enabled ? 'Yes' : 'No' }}</td>
                 <td>{{ character.createdAt ? character.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td><a href="{{ path('character_show', {'id': character.id}) }}" class="btn btn-success">Show</a></td>
+
+
+                {% if is_granted(constant('App\\Security\\Voter\\VoterAccess::CHARACTER_SHOW'), character ) %}
+                    <td><a href="{{ path('character_show', {'id': character.id}) }}" class="btn btn-success">Show</a></td>
+                {% endif %}
+
+
             </tr>
         {% else %}
             <tr>
@@ -35,5 +42,4 @@
         {% endfor %}
         </tbody>
     </table>
-
 {% endblock %}

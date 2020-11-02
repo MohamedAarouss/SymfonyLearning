@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Character;
 use App\Form\CharacterType;
 use App\Repository\CharacterRepository;
+use App\Security\Voter\VoterAccess;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,12 +35,22 @@ class CharacterController extends AbstractController
      */
     public function show(Character $character, CharacterRepository $characterRepository): Response
     {
+        //Sans Voter
+        /*
         if($character->getAge() < 25){
             if($this->isGranted('ROLE_SUPER_ADMIN') === false){
                 $this->addFlash('danger', 'Vous ne pouvez accéder à ce personnage');
                 return $this->redirect($this->generateUrl('home'));
             }
         }
+        */
+
+        //Avec Voter
+        if($this->isGranted(VoterAccess::CHARACTER_SHOW, $character) === false){
+            $this->addFlash('danger', 'Vous ne pouvez accéder à ce personnage');
+            return $this->redirect($this->generateUrl('home'));
+        }
+
 
         return $this->render('character/show.html.twig', [
             'characters' => $characterRepository->findAll(),
