@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 
 class HomeController extends AbstractController
 {
@@ -12,7 +14,7 @@ class HomeController extends AbstractController
      */
     public function index($id = null)
     {
-        $this->addFlash('success', "coucou");
+        //$this->addFlash('success', "coucou");
 
         if(isset($id)){
             return $this->render('home/index'.$id.'.html.twig');
@@ -22,11 +24,12 @@ class HomeController extends AbstractController
     }
 
     /**
+     * @IsGranted("ROLE_USER")
+     *
      * @Route("/tp", name="tp")
      */
     public function tp()
     {
-
         return $this->render('home/tp.html.twig');
     }
 

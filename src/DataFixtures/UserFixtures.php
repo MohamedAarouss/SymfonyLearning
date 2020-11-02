@@ -36,6 +36,14 @@ class UserFixtures extends Fixture
         $user->setPassword($encoded);
         $manager->persist($user);
 
+        $user = new User();
+        $user->setUsername('superadmin');
+        $user->setRoles(['ROLE_SUPER_ADMIN']);
+        $plainPassword = 'superadmin';
+        $encoded = $this->encoder->encodePassword($user, $plainPassword);
+        $user->setPassword($encoded);
+        $manager->persist($user);
+
         $manager->flush();
     }
 }
