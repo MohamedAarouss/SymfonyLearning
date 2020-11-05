@@ -12,12 +12,22 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('tp') }}">Tp</a>
                 </li>
+
             {% endif %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('home', {'id': 2}) }}">Voter</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="{{ path('home', {'id': 3}) }}">Formulaire</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="{{ path('character_index') }}">Character</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('home', {'id': 4}) }}">Tp 2</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('user_index') }}">Users</a>
             </li>
             {% if is_granted('ROLE_USER') %}
                 <li class="nav-item">

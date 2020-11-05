@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  *
@@ -12,6 +13,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
+    public const MAX_HEALTH = 100;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -20,6 +23,9 @@ class User implements UserInterface
     private $id;
 
     /**
+     *
+     * @Assert\NotBlank
+     *
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $username;
@@ -34,6 +40,25 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @Assert\NotBlank
+     * @Assert\Range(
+     *      min = 0,
+     *      max = 100,
+     *      notInRangeMessage = "You must be between {{ min }} and {{ max }} for be safe"
+     * )
+     *
+     * @ORM\Column(type="integer")
+     */
+    private $health;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+
 
     public function getId(): ?int
     {
@@ -106,5 +131,35 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getHealth(): ?int
+    {
+        return $this->health;
+    }
+
+    public function setHealth(int $health): self
+    {
+        $this->health = $health;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+
+    public function __toString() : string
+    {
+        return $this->username;
     }
 }

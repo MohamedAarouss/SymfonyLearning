@@ -22,26 +22,32 @@ class UserFixtures extends Fixture
         $user = new User();
         $user->setUsername('zimzim');
         $user->setRoles(['ROLE_USER']);
-        $plainPassword = 'zimzim';
+        $plainPassword = $user->getUsername();
         $encoded = $this->encoder->encodePassword($user, $plainPassword);
         $user->setPassword($encoded);
+        $user->setCreatedAt(new \DateTime());
+        $user->setHealth(user::MAX_HEALTH * 2);
         $manager->persist($user);
 
 
         $user = new User();
         $user->setUsername('admin');
         $user->setRoles(['ROLE_ADMIN']);
-        $plainPassword = 'admin';
+        $plainPassword = $user->getUsername();
         $encoded = $this->encoder->encodePassword($user, $plainPassword);
         $user->setPassword($encoded);
+        $user->setCreatedAt(new \DateTime());
+        $user->setHealth(user::MAX_HEALTH * 2);
         $manager->persist($user);
 
         $user = new User();
         $user->setUsername('superadmin');
         $user->setRoles(['ROLE_SUPER_ADMIN']);
-        $plainPassword = 'superadmin';
+        $plainPassword = $user->getUsername();
         $encoded = $this->encoder->encodePassword($user, $plainPassword);
         $user->setPassword($encoded);
+        $user->setCreatedAt(new \DateTime());
+        $user->setHealth(user::MAX_HEALTH * 2);
         $manager->persist($user);
 
         $manager->flush();
