@@ -28,12 +28,13 @@
                 <td>{{ character.enabled ? 'Yes' : 'No' }}</td>
                 <td>{{ character.createdAt ? character.createdAt|date('Y-m-d H:i:s') : '' }}</td>
 
-
-                {% if is_granted(constant('App\\Security\\Voter\\VoterAccess::CHARACTER_SHOW'), character ) %}
-                    <td><a href="{{ path('character_show', {'id': character.id}) }}" class="btn btn-success">Show</a></td>
-                {% endif %}
-
-
+                <td>
+                    {% if is_granted(constant('App\\Security\\Voter\\VoterAccess::CHARACTER_SHOW'), character ) %}
+                        <a href="{{ path('character_show', {'id': character.id}) }}" class="btn btn-success">Show</a>
+                    {% endif %}
+                    <a  class="btn btn-warning" href="{{ path('character_edit', {'id': character.id}) }}">edit</a>
+                    <a  class="btn btn-primary" href="{{ path('character_add_years', {'id': character.id}) }}">Add me years</a>
+                </td>
             </tr>
         {% else %}
             <tr>
@@ -42,4 +43,5 @@
         {% endfor %}
         </tbody>
     </table>
+    <a href="{{ path('character_new') }}" class="btn btn-danger">Create new</a>
 {% endblock %}

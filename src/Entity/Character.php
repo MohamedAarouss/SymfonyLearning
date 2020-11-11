@@ -4,10 +4,15 @@ namespace App\Entity;
 
 use App\Repository\CharacterRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Constraints as MyAssert;
+
 
 /**
  * @ORM\Entity(repositoryClass=CharacterRepository::class)
  * @ORM\Table(name="`character`")
+ *
+ * @MyAssert\ConstraintEnabledAge
  */
 class Character
 {
@@ -30,11 +35,18 @@ class Character
     private $name;
 
     /**
+     * * @Assert\Range(
+     *     min = 0,
+     *     max = 100,
+     *     notInRangeMessage = "The character's age must be between {{ min }} and {{ max }}"
+     * )
      * @ORM\Column(type="integer")
      */
     private $age;
 
     /**
+     * @Assert\Choice(callback="getAllSex", message="Choose a valid gender.")
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $sex;
@@ -117,5 +129,10 @@ class Character
     public function __toString() : string
     {
         return $this->name .' - '. $this->setSex();
+    }
+
+    public static function getAllSex(): array
+    {
+        return [self::MALE, self::FEMELLE, self::OTHER, self::ROBOT];
     }
 }
