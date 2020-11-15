@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% import "macros.html.twig" as macros %}
+
 {% block title %}Home logued {% endblock title %}
 
 {% block body %}
@@ -36,7 +38,7 @@
                 <tr>
                     <td>{{ weapon.name }}</td>
                     <td>{{ weapon.ammunition }}</td>
-                    <td>{{ weapon.scarcity }}</td>
+                    <td>{{ macros.scarcity(weapon.scarcity) }}</td>
                     <td>{{ weapon.WeaponType.name }}</td>
                 </tr>
             {% endfor %}
@@ -50,6 +52,7 @@
             En clair je clique, je dois n'avoir que les champs names - ammunition - inHand ( si Admin ) et scarcity
         </h5>
         <h5>11: sur la page USer:profile ajouter une fonction pour loader une arme. (inHand à true) 1 seul possible par utilisateur</h5>
+        <h5>12: Gérer la sécurité de la fonction 11 !</h5>
     </div>
     <hr>
     <hr>
