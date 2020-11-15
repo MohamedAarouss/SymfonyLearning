@@ -11,11 +11,33 @@
             <h1>User : {{ app.user.username }}</h1>
         </div>
     </div>
-
+    <hr>
+    <div class="row">
+        <div class="small-12 columns">
+            {% for weaponType in weaponsType %}
+                <h5>{{ weaponType.name }} ==> weaponType.damage
+                    <a class="badge badge-success" href="{{ path('weapon_new', {'id': weaponType.id}) }}">
+                        Prendre {{ weaponType.name }}
+                    </a>
+                </h5>
+            {% endfor %}
+        </div>
+    </div>
+    <hr>
+    <hr>
     <div class="row">
         <div class="small-12 columns">
             {% for weapon in weapons %}
-                <h1>{{ weapon.WeaponType.name }} ==> {{ weapon.name }} : {{ weapon.ammunition }} : {{ macros.scarcity(weapon.scarcity) }}</h1>
+                <h5 {% if weapon.inHand is same as(true) %} class="alert alert-success"{% endif %}>
+                    {% if weapon.inHand is same as(false) %}
+                    <a class="badge badge-success"
+                       href="{{ path('weapon_load', {'id': weapon.id}) }}">Load</a>
+                    {% endif %}
+                    {{ weapon.WeaponType.name }}
+                    ==> {{ weapon.name }} :
+                    <a href="{{ path('weapon_edit', {'id': weapon.id, 'profile': 'profile'}) }}">{{ weapon.ammunition }}
+                        : </a>{{ macros.scarcity(weapon.scarcity) }}
+                </h5>
             {% endfor %}
         </div>
     </div>

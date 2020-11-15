@@ -88,6 +88,7 @@ class UserType extends AbstractType
             $entity->setCreatedAt(new \DateTime('now'));
         } else//si je suis en édition
         {
+            $form->remove('plainPassword');
             $form->add('changePassword', PasswordType::class, ['mapped' => false, 'required' => false]);
         }
     }

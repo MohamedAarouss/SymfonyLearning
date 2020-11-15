@@ -20,14 +20,23 @@ class WeaponType extends AbstractType
     private $tokenStorage;
     private $authorizationChecker;
 
-    public function __construct(TokenStorageInterface $tokenStorage, AuthorizationCheckerInterface $authorizationChecker)
-    {
+    private $weaponType;
+
+    private $ammunition;
+
+    public function __construct(
+        TokenStorageInterface $tokenStorage,
+        AuthorizationCheckerInterface $authorizationChecker
+    ){
         $this->tokenStorage = $tokenStorage;
         $this->authorizationChecker = $authorizationChecker;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $this->weaponType = $options['weapon_type'];
+        $this->ammunition = $options['ammunition'];
+
         $builder
             ->add('name')
             ->add('ammunition', AmmunitionType::class)
@@ -38,8 +47,7 @@ class WeaponType extends AbstractType
             ->addEventListener(
                 FormEvents::PRE_SET_DATA,
                 [$this, 'onPreSetData']
-            )
-        ;
+            );
     }
 
     public function onPreSetData(FormEvent $event)
@@ -49,16 +57,43 @@ class WeaponType extends AbstractType
         /** @var $weapon Weapon */
         $weapon = $event->getData();
 
-        if($this->authorizationChecker->isGranted('ROLE_ADMIN') === false){
-            $form->remove('inHand');
-            $weapon->setInHand(false);
+        if($weapon->getId() === null){
+
+            if($this->weaponType !== null){
+                $weapon->setWeaponType($this->weaponType);
+                $form->remove('WeaponType');
+
+                $weapon->setUser($this->tokenStorage->getToken()->getUser());
+                $form->remove('User');
+
+                $weapon->setName(
+                    $this->weaponType->getName().' de '.$this->tokenStorage->getToken()->getUser()->getUsername()
+                );
+
+                $weapon->setAmmunition(Weapon::MAX_AMMUNITION);
+                $form->remove('ammunition');
+
+                $weapon->setInHand(false);
+                $form->remove('inHand');
+
+            }
+
+        }else{
+
+            if( $this->ammunition === true){
+                $form->remove('name')->remove('inHand')->remove('scarcity')->remove('User')->remove('WeaponType');
+            }
         }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => Weapon::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => Weapon::class,
+                'weapon_type' => null,
+                'ammunition' => null
+            ]
+        );
     }
 }

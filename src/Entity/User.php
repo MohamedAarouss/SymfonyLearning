@@ -143,7 +143,7 @@ class User implements UserInterface
 
     public function removeRole(string $role): self{
         if(in_array($role, $this->roles)){
-            unset($this->roles[array_keys($this->roles, $role)]);
+            unset($this->roles[array_keys($this->roles, $role)[0]]);
         }
         return $this;
     }

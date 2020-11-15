@@ -14,6 +14,8 @@ use App\Validator\Constraints as AssertApp;
  */
 class Weapon
 {
+    const MAX_AMMUNITION = 30;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

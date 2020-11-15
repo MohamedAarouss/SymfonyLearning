@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Repository\WeaponRepository;
+use App\Repository\WeaponTypeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -121,7 +122,7 @@ class UserController extends AbstractController
      * @Route("/profile/", name="user_profile", methods={"GET"})
      */
     public function profile(TokenStorageInterface $tokenStorage, AuthorizationCheckerInterface $authorizationChecker,
-        WeaponRepository $weaponRepository){
+        WeaponRepository $weaponRepository, WeaponTypeRepository $weaponTypeRepository){
 
         $weapons = $weaponRepository->findByUserOrderWeaponTypeDesc($tokenStorage->getToken()->getUser());
 
@@ -129,6 +130,7 @@ class UserController extends AbstractController
             'user/profile.html.twig',
             [
                 'weapons' => $weapons,
+                'weaponsType' => $weaponTypeRepository->findBy([], ['damage' => 'ASC'])
             ]
         );
     }
