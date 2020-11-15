@@ -7,20 +7,24 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 
-class RolesType extends AbstractType
+class ScarcityType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'choices' => [
-                'ROLE_USER' => 'ROLE_USER',
-                'ROLE_ADMIN' => 'ROLE_ADMIN',
-                'ROLE_SUPER_ADMIN' => 'ROLE_SUPER_ADMIN',
+                "Commun" => 1,
+                "Rare" => 2,
+                "Epique" => 4,
+                "Légendaire" => 8
+
             ],
-            'multiple' => true,
-            'expanded' => true,
+            'multiple' => false,
+            'expanded' => false,
         ]);
     }
+
+
     public function getParent(){
         return ChoiceType::class;
     }

@@ -2,35 +2,41 @@
 
 namespace App\Controller;
 
+use App\Entity\Game;
+use App\Entity\Player;
+use App\Repository\GameRepository;
+use App\Repository\GameUserRepository;
+use App\Repository\UserRepository;
+use App\Repository\WeaponRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
-
 class HomeController extends AbstractController
 {
     /**
-     * @Route("/{id}", name="home", defaults={"id":null}, requirements={"id":"\d"})
+     * @Route("/", name="home_index" )
      */
-    public function index($id = null)
+    public function index()
     {
-        //$this->addFlash('success', "coucou");
-
-        if(isset($id)){
-            return $this->render('home/index'.$id.'.html.twig');
-        }else{
-            return $this->render('home/index.html.twig');
+        if($this->isGranted('ROLE_USER') === true){
+            return $this->redirect($this->generateUrl('home_logued_index'));
         }
+
+        return $this->render('home/index.html.twig');
     }
 
     /**
-     * @IsGranted("ROLE_USER")
+     * @Route("/logued/", name="home_logued_index" )
      *
-     * @Route("/tp", name="tp")
+     * @IsGranted("ROLE_USER")
      */
-    public function tp()
+    public function indexLogued(WeaponRepository $weaponRepository)
     {
-        return $this->render('home/tp.html.twig');
+        return $this->render('home/index_logued.html.twig',
+            ['weapons' => $weaponRepository->findByWeaponTypeNameAndWeaponScarcity()
+        ]
+        );
     }
 
 }

@@ -7,20 +7,21 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 
-class RolesType extends AbstractType
+class BooBoolType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'choices' => [
-                'ROLE_USER' => 'ROLE_USER',
-                'ROLE_ADMIN' => 'ROLE_ADMIN',
-                'ROLE_SUPER_ADMIN' => 'ROLE_SUPER_ADMIN',
+                'Activer' => true,
+                "Désactiver" => false
             ],
-            'multiple' => true,
+            'multiple' => false,
             'expanded' => true,
         ]);
     }
+
+
     public function getParent(){
         return ChoiceType::class;
     }

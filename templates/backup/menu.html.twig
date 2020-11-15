@@ -6,20 +6,31 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="{{ path('home_index') }}">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{{ path('home') }}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            {% if is_granted('ROLE_USER') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('tp') }}">Tp</a>
+                </li>
+
+            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('home', {'id': 2}) }}">Voter</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('weapon_index') }}">Weapon</a>
+                <a class="nav-link" href="{{ path('home', {'id': 3}) }}">Formulaire</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('weapon_type_index') }}">Weapon Type</a>
+                <a class="nav-link" href="{{ path('character_index') }}">Character</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('home', {'id': 4}) }}">Tp 2</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('user_index') }}">Users</a>
             </li>
             {% if is_granted('ROLE_USER') %}
                 <li class="nav-item">
-                    <a href="{{ path('user_profile') }}">Profile</a>
                     <a class="nav-link" href="{{ path('app_logout') }}">logout</a>
                 </li>
             {% else %}

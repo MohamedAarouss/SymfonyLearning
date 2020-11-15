@@ -17,19 +17,7 @@
             </tr>
             <tr>
                 <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Health</th>
-                <td>{{ user.health }}</td>
-            </tr>
-            <tr>
-                <th>Enabled</th>
-                <td>{{ user.enabled ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ user.roles ? user.roles|join(', ') : '' }}</td>
             </tr>
             <tr>
                 <th>Password</th>

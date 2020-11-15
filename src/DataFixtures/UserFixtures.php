@@ -21,35 +21,32 @@ class UserFixtures extends Fixture
 
         $user = new User();
         $user->setUsername('zimzim');
-        $user->setRoles(['ROLE_USER']);
-        $plainPassword = $user->getUsername();
-        $encoded = $this->encoder->encodePassword($user, $plainPassword);
-        $user->setPassword($encoded);
-        $user->setCreatedAt(new \DateTime());
-        $user->setHealth(user::MAX_HEALTH * 2);
-        $manager->persist($user);
-
-
-        $user = new User();
-        $user->setUsername('admin');
         $user->setRoles(['ROLE_ADMIN']);
         $plainPassword = $user->getUsername();
         $encoded = $this->encoder->encodePassword($user, $plainPassword);
         $user->setPassword($encoded);
-        $user->setCreatedAt(new \DateTime());
-        $user->setHealth(user::MAX_HEALTH * 2);
+        $user->setHealth(User::MAX_HEALTH);
+        $user->setCreatedAt(new \DateTime('now'));
+        $this->addReference($user->getUsername(), $user);
         $manager->persist($user);
 
-        $user = new User();
-        $user->setUsername('superadmin');
-        $user->setRoles(['ROLE_SUPER_ADMIN']);
-        $plainPassword = $user->getUsername();
-        $encoded = $this->encoder->encodePassword($user, $plainPassword);
-        $user->setPassword($encoded);
-        $user->setCreatedAt(new \DateTime());
-        $user->setHealth(user::MAX_HEALTH * 2);
-        $manager->persist($user);
 
+        for($i = 1; $i < 13; $i++){
+            $user = new User();
+            $user->setUsername('user'.$i);
+            if($i > 10){
+                $user->setRoles(['ROLE_ADMIN']);
+            }else{
+                $user->setRoles(['ROLE_USER']);
+            }
+            $plainPassword = $user->getUsername();
+            $encoded = $this->encoder->encodePassword($user, $plainPassword);
+            $user->setPassword($encoded);
+            $user->setHealth(10 + \rand(0, User::MAX_HEALTH - 10));
+            $user->setCreatedAt(new \DateTime('now'));
+            $this->addReference($user->getUsername(), $user);
+            $manager->persist($user);
+        }
         $manager->flush();
     }
 }

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% import "macros.html.twig" as macros %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="small-12 columns">
+            <h1>User : {{ app.user.username }}</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="small-12 columns">
+            {% for weapon in weapons %}
+                <h1>{{ weapon.WeaponType.name }} ==> {{ weapon.name }} : {{ weapon.ammunition }} : {{ macros.scarcity(weapon.scarcity) }}</h1>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock body %}

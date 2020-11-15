@@ -7,18 +7,19 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 
-class RolesType extends AbstractType
+class AmmunitionType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver)
     {
+        for($i =0; $i < 31 ; $i++){
+            $data[$i] = $i;
+        }
+
+
         $resolver->setDefaults([
-            'choices' => [
-                'ROLE_USER' => 'ROLE_USER',
-                'ROLE_ADMIN' => 'ROLE_ADMIN',
-                'ROLE_SUPER_ADMIN' => 'ROLE_SUPER_ADMIN',
-            ],
-            'multiple' => true,
-            'expanded' => true,
+            'choices' => $data,
+            'multiple' => false,
+            'expanded' => false,
         ]);
     }
     public function getParent(){

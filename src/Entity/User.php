@@ -2,28 +2,29 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
+ * @UniqueEntity("username")
  *
- * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
 class User implements UserInterface
 {
-    public const MAX_HEALTH = 100;
+    const MAX_HEALTH = 100;
 
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     *
      * @Assert\NotBlank
      *
      * @ORM\Column(type="string", length=180, unique=true)
@@ -36,22 +37,17 @@ class User implements UserInterface
     private $roles = [];
 
     /**
-     * @var string The hashed password
-     * @ORM\Column(type="string")
-     */
-    private $password;
-
-    /**
-     * @Assert\NotBlank
      * @Assert\Range(
      *      min = 0,
      *      max = 100,
-     *      notInRangeMessage = "You must be between {{ min }} and {{ max }} for be safe"
+     *      minMessage = "You must be at least {{ limit }} health",
+     *      maxMessage = "You cannot have more than {{ limit }} health"
      * )
      *
      * @ORM\Column(type="integer")
      */
     private $health;
+
 
     /**
      * @ORM\Column(type="datetime")
@@ -59,6 +55,11 @@ class User implements UserInterface
     private $createdAt;
 
 
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
+     */
+    private $password;
 
     public function getId(): ?int
     {
@@ -133,33 +134,63 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
+    public function addRole(string $role): self{
+        if(!in_array($role, $this->roles)){
+            $this->roles[] = $role;
+        }
+        return $this;
+    }
+
+    public function removeRole(string $role): self{
+        if(in_array($role, $this->roles)){
+            unset($this->roles[array_keys($this->roles, $role)]);
+        }
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getHealth(): ?int
     {
         return $this->health;
     }
 
-    public function setHealth(int $health): self
+    /**
+     * @param mixed $health
+     */
+    public function setHealth(int $health): void
     {
         $this->health = $health;
-
-        return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    /**
+     * @return bool
+     */
+    public function getEnabled(): ?bool
+    {
+        return ($this->health > 0 ? true : false);
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    /**
+     * @param mixed $createdAt
+     */
+    public function setCreatedAt(\DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
-
-        return $this;
     }
 
-
-    public function __toString() : string
+    public function __toString()
     {
-        return $this->username;
+        return $this->getUsername();
     }
 }

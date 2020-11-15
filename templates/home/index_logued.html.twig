@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home logued {% endblock title %}
+
+{% block body %}
+
+<div class="row">
+    <div class="small-12 columns">
+        <h1 class="text-center">Bonjour {% if is_granted('ROLE_USER') %}{{ app.user.username }}{% endif %}</h1>
+    </div>
+    <hr>
+    <div class="small-12 columns">
+        <h4 class="">
+            Tp du jour : :)<br />
+        </h4>
+        <hr><hr>
+        <h5>1: Sécuriser au ROLE_USER Weapon et Sécuriser au ROLE_ADMIN WeaponType</h5>
+        <h5>2: Créer le champ ammunition ( Select de 0 à 30 )</h5>
+        <h5>3: Créer le champ scarcity ( Select avec comme données : commun = 1, rare = 2, epique = 4, légendaire = 8 )</h5>
+        <h5>4: créer une régle de validation pour que ammunition sois compris entre 0 et 30</h5>
+        <h5>5: Enlever le champ InHand dans Weapontype dans le formulaire ( sauf pour le ROLE_ADMIN )</h5>
+        <h5>6: Lister ici les Weapon trié par weapontype:name ASC et weapon:scarcity ASC et disponible pour un utilisateur</h5>
+        <table>
+            <tr>
+                <th>Nom :</th>
+                <th>Munitions :</th>
+                <th>Scarcity :</th>
+                <th>Type :</th>
+            </tr>
+            {% for weapon in weapons %}
+                <tr>
+                    <td>{{ weapon.name }}</td>
+                    <td>{{ weapon.ammunition }}</td>
+                    <td>{{ weapon.scarcity }}</td>
+                    <td>{{ weapon.WeaponType.name }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <h5>7: Créer une page user profile et lister toutes les armes de l'utilisateur connecté trié par weaponType name DESC
+        <a href="{{ path('user_profile') }}">Profile</a></h5>
+        <h5>8: Créer une contrainte de classe pour que l'utilisateur ne puisse avoir qu'une seule arme légendaire</h5>
+        <h5>9: Sur la page user:profile ajouter une action pour modifier le nombre de munition d'une arme ( uniquement ammunition visible )  </h5>
+        <h5>10: Sur la page user:profile lister tous les WeaponType et ajouter une action pour que l'utilisateur s'ajoute une arme de ce type<br />
+            du type : <a href="{{ path('weapon_new', {'id': 2}) }}">Prendre le "RIVOLVER"</a><br />
+            En clair je clique, je dois n'avoir que les champs names - ammunition - inHand ( si Admin ) et scarcity
+        </h5>
+        <h5>11: sur la page USer:profile ajouter une fonction pour loader une arme. (inHand à true) 1 seul possible par utilisateur</h5>
+    </div>
+    <hr>
+    <hr>
+</div>
+{% endblock body %}

@@ -6,21 +6,23 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-class AgeType extends AbstractType
+
+class UserHealthType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(
-            [
-                'choices' => range(0, 100),
-                'multiple' => false,
-                'expanded' => false,
-            ]
-        );
-    }
+        for($i =0; $i < 101 ; $i++){
+            $data[$i] = $i;
+        }
 
-    public function getParent()
-    {
+
+        $resolver->setDefaults([
+            'choices' => $data,
+            'multiple' => false,
+            'expanded' => false,
+        ]);
+    }
+    public function getParent(){
         return ChoiceType::class;
     }
 }
