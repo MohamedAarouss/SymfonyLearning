@@ -19,10 +19,6 @@ class HomeController extends AbstractController
      */
     public function index()
     {
-        if($this->isGranted('ROLE_USER') === true){
-            return $this->redirect($this->generateUrl('home_logued_index'));
-        }
-
         return $this->render('home/index.html.twig');
     }
 

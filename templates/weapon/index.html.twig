@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% import "macros.html.twig" as macros %}
+
 {% block title %}Weapon index{% endblock %}
 
 {% block body %}
@@ -23,7 +25,7 @@
                 <td>{{ weapon.name }}</td>
                 <td>{{ weapon.ammunition }}</td>
                 <td>{{ weapon.inHand ? 'Yes' : 'No' }}</td>
-                <td>{{ weapon.scarcity }}</td>
+                <td>{{ weapon.scarcity }} |||| {{ macros.scarcity(weapon.scarcity) }}</td>
                 <td>
                     <a href="{{ path('weapon_show', {'id': weapon.id}) }}">show</a>
                     <a href="{{ path('weapon_edit', {'id': weapon.id}) }}">edit</a>

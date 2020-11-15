@@ -17,6 +17,9 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+
 
 class UserType extends AbstractType
 {
@@ -25,8 +28,10 @@ class UserType extends AbstractType
 
     private $usernameDefault;
 
-    public function __construct(TokenStorageInterface $tokenStorage, AuthorizationCheckerInterface $authorizationChecker)
-    {
+    public function __construct(
+        TokenStorageInterface $tokenStorage,
+        AuthorizationCheckerInterface $authorizationChecker
+    ){
         $this->tokenStorage = $tokenStorage; // le token utilisateur
         $this->authorizationChecker = $authorizationChecker; // le service de controle d'utilisateur
     }
@@ -41,12 +46,18 @@ class UserType extends AbstractType
             ->add('roles', RolesType::class)
             ->add('health', UserHealthType::class)
             ->add('createdAt')
-            ->add('plainPassword', PasswordType::class, ['mapped' => false, 'required' => false] )
+            ->add('plainPassword', PasswordType::class, [
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new NotBlank(),
+                    new Length(['min' => 8]),
+                ],
+            ])
             ->addEventListener(
                 FormEvents::PRE_SET_DATA,
                 [$this, 'onPreSetData']
-            )
-        ;
+            );
     }
 
     public function onPreSetData(FormEvent $event)
@@ -61,7 +72,8 @@ class UserType extends AbstractType
             $form->remove('plainPassword');
         }
 
-        if($entity->getUsername() === $this->tokenStorage->getToken()->getUser()->getUsername()) //recupere l'utilisateur et check si c'est celui du formulaire
+        if($entity->getUsername() === $this->tokenStorage->getToken()->getUser()->getUsername(
+            )) //recupere l'utilisateur et check si c'est celui du formulaire
         {
             $form->remove('username');
         }
@@ -72,19 +84,21 @@ class UserType extends AbstractType
 
             $form->remove('health');
             $form->remove('createdAt');
-            $entity->setHealth(50);
+            $entity->setHealth(User::MAX_HEALTH);
             $entity->setCreatedAt(new \DateTime('now'));
-        }else//si je suis en édition
+        } else//si je suis en édition
         {
-            $form->add('changePassword',PasswordType::class, ['mapped' => false, 'required' => false]);
+            $form->add('changePassword', PasswordType::class, ['mapped' => false, 'required' => false]);
         }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => User::class,
-            'usernameDefault' => null
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => User::class,
+                'usernameDefault' => null,
+            ]
+        );
     }
 }

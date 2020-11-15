@@ -5,21 +5,26 @@
 {% block body %}
 
 <div class="row">
-    <div class="small-12 columns">
+    <div class="col-12">
         <h1 class="text-center">Bonjour {% if is_granted('ROLE_USER') %}{{ app.user.username }}{% endif %}</h1>
     </div>
     <hr>
-    <div class="small-12 columns">
+    <div class="col-12">
         <h4 class="">
             Tp du jour : :)<br />
         </h4>
+        <h5 class="alert-warning alert">
+            Comme d'hab 1 question = 1 commit !
+        </h5>
         <hr><hr>
+        <h5>0: Modifier la redirection aprés une connexion réussi vers "home_logued_index"</h5>
         <h5>1: Sécuriser au ROLE_USER Weapon et Sécuriser au ROLE_ADMIN WeaponType</h5>
         <h5>2: Créer le champ ammunition ( Select de 0 à 30 )</h5>
         <h5>3: Créer le champ scarcity ( Select avec comme données : commun = 1, rare = 2, epique = 4, légendaire = 8 )</h5>
         <h5>4: créer une régle de validation pour que ammunition sois compris entre 0 et 30</h5>
         <h5>5: Enlever le champ InHand dans Weapontype dans le formulaire ( sauf pour le ROLE_ADMIN )</h5>
-        <h5>6: Lister ici les Weapon trié par weapontype:name ASC et weapon:scarcity ASC et disponible pour un utilisateur</h5>
+        <h5>6: Lister ici les Weapon trié par weapontype:name ASC et weapon:scarcity ASC et disponible pour un utilisateur User = null<br />
+        Utiliser la macro pour weapon.scarcity</h5>
         <table>
             <tr>
                 <th>Nom :</th>

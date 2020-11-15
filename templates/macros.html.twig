@@ -1,10 +1,10 @@
 {% macro scarcity(value) %}
-    <span class="scarcity" style=
+    <span class="badge  badge-pill badge-light" style=
     {% if value is same as(1) %}
         "color:grey;    ">Commun
     {% endif %}
     {% if value is same as(2) %}
-        "color:white;    ">Rare
+        "color:blue;    ">Rare
     {% endif %}
     {% if value is same as(4) %}
         "color:purple;    ">Epique
@@ -12,6 +12,5 @@
     {% if value is same as(8) %}
         "color:orange;    ">Legendaire
     {% endif %}
-
     </span>
 {% endmacro %}
