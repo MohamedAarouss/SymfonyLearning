@@ -128,6 +128,11 @@ class WeaponController extends AbstractController
     {
         //$this->addFlash('success', 'Crick Crick');
 
+        if($this->isGranted(AppAccess::WEAPON_SHOW, $weapon) === false){
+            $this->addFlash('danger', 'you cannot load a weapon that does not belong to you !');
+            return $this->redirectToRoute('user_profile');
+        }
+
         $load->load($weapon);
 
         return $this->redirectToRoute('user_profile');
