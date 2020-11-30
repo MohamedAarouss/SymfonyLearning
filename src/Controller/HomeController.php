@@ -29,10 +29,7 @@ class HomeController extends AbstractController
      */
     public function indexLogued(WeaponRepository $weaponRepository)
     {
-        return $this->render('home/index_logued.html.twig',
-            ['weapons' => $weaponRepository->findByWeaponTypeNameAndWeaponScarcity()
-        ]
-        );
+        return $this->render('home/index_logued.html.twig');
     }
 
 }

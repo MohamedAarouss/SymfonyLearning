@@ -44,7 +44,6 @@ class UserType extends AbstractType
         $builder
             ->add('username')
             ->add('roles', RolesType::class)
-            ->add('health', UserHealthType::class)
             ->add('createdAt')
             ->add('plainPassword', PasswordType::class, [
                 'mapped' => false,
@@ -84,7 +83,6 @@ class UserType extends AbstractType
 
             $form->remove('health');
             $form->remove('createdAt');
-            $entity->setHealth(User::MAX_HEALTH);
             $entity->setCreatedAt(new \DateTime('now'));
         } else//si je suis en édition
         {

@@ -25,16 +25,15 @@ class UserFixtures extends Fixture
         $plainPassword = $user->getUsername();
         $encoded = $this->encoder->encodePassword($user, $plainPassword);
         $user->setPassword($encoded);
-        $user->setHealth(User::MAX_HEALTH);
         $user->setCreatedAt(new \DateTime('now'));
         $this->addReference($user->getUsername(), $user);
         $manager->persist($user);
 
 
-        for($i = 1; $i < 13; $i++){
+        for($i = 1; $i < 21; $i++){
             $user = new User();
             $user->setUsername('user'.$i);
-            if($i > 10){
+            if($i > 18){
                 $user->setRoles(['ROLE_ADMIN']);
             }else{
                 $user->setRoles(['ROLE_USER']);
@@ -42,7 +41,6 @@ class UserFixtures extends Fixture
             $plainPassword = $user->getUsername();
             $encoded = $this->encoder->encodePassword($user, $plainPassword);
             $user->setPassword($encoded);
-            $user->setHealth(10 + \rand(0, User::MAX_HEALTH - 10));
             $user->setCreatedAt(new \DateTime('now'));
             $this->addReference($user->getUsername(), $user);
             $manager->persist($user);

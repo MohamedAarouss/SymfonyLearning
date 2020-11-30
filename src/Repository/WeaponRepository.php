@@ -24,36 +24,11 @@ class WeaponRepository extends ServiceEntityRepository
     public function findByUserOrderWeaponTypeDesc(User $user)
     {
         return $this->createQueryBuilder('w')
-            ->where('w.User = :user')
+            ->innerJoin('w.GameUser', 'gu')
+            ->where('gu.user = :user')
             ->setParameter('user', $user)
-            ->innerJoin('w.WeaponType', 'wp')
-            ->orderBy('wp.name', 'DESC')
-            //->setMaxResults(10)
             ->getQuery()
             ->getResult();
     }
 
-    public function findByWeaponTypeNameAndWeaponScarcity()
-    {
-        return $this->createQueryBuilder('w')
-            ->innerJoin('w.WeaponType', 'wt')
-            ->where('w.User is NULL')
-            ->orderBy('wt.name')
-            ->addOrderBy('w.scarcity')
-            ->getQuery()
-            ->getResult();
-    }
-
-
-    /*
-    public function findOneBySomeField($value): ?Weapon
-    {
-        return $this->createQueryBuilder('w')
-            ->andWhere('w.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

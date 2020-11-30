@@ -51,15 +51,22 @@ class Weapon
     private $scarcity;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="App\Entity\GameUser")
      */
-    private $User;
+    private $GameUser;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\WeaponType")
      * @ORM\JoinColumn(nullable=false)
      */
     private $WeaponType;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Game")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $Game;
+
 
     public function getId(): ?int
     {
@@ -115,18 +122,6 @@ class Weapon
     }
 
 
-    public function getUser(): ?User
-    {
-        return $this->User;
-    }
-
-    public function setUser(?User $User): self
-    {
-        $this->User = $User;
-
-        return $this;
-    }
-
     public function getWeaponType(): ?WeaponType
     {
         return $this->WeaponType;
@@ -138,6 +133,43 @@ class Weapon
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getGameUser()
+    {
+        return $this->GameUser;
+    }
+
+    /**
+     * @param mixed $GameUser
+     */
+    public function setGameUser(?GameUser $GameUser): self
+    {
+        $this->GameUser = $GameUser;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGame()
+    {
+        return $this->Game;
+    }
+
+    /**
+     * @param mixed $Game
+     */
+    public function setGame(Game $Game): self
+    {
+        $this->Game = $Game;
+
+        return $this;
+    }
+
 
     public function __toString()
     {

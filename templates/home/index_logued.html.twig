@@ -18,44 +18,45 @@
         <h5 class="alert-warning alert">
             Comme d'hab 1 question = 1 commit !
         </h5>
+        <h6>New MCD </h6>
+        <img src="https://docs.google.com/drawings/d/e/2PACX-1vTloBWaJFCblEY8qbEkl-0dl5_bKjJf5qiaEmyadVc1R-uS7VS_QajsKdJs05Lx4qyPFu81EKg3QXez/pub?w=960&amp;h=720">
+
         <hr><hr>
-        <h5>0: Modifier la redirection aprés une connexion réussi vers "home_logued_index"</h5>
-        <h5>1: Sécuriser au ROLE_USER Weapon et Sécuriser au ROLE_ADMIN WeaponType</h5>
-        <h5>2: Créer le champ ammunition ( Select de 0 à 30 )</h5>
-        <h5>3: Créer le champ scarcity ( Select avec comme données : commun = 1, rare = 2, epique = 4, légendaire = 8 )</h5>
-        <h5>4: créer une régle de validation pour que ammunition sois compris entre 0 et 30</h5>
-        <h5>5: Enlever le champ InHand dans Weapontype dans le formulaire ( sauf pour le ROLE_ADMIN )</h5>
-        <h5>6: Lister ici les Weapon trié par weapontype:name ASC et weapon:scarcity ASC et disponible pour un utilisateur User = null<br />
-        Utiliser la macro pour weapon.scarcity</h5>
-        <table>
-            <tr>
-                <th>Nom :</th>
-                <th>Munitions :</th>
-                <th>Scarcity :</th>
-                <th>Type :</th>
-            </tr>
-            {% for weapon in weapons %}
-                <tr>
-                    <td>{{ weapon.name }}</td>
-                    <td>{{ weapon.ammunition }}</td>
-                    <td>{{ macros.scarcity(weapon.scarcity) }}</td>
-                    <td>{{ weapon.WeaponType.name }}</td>
-                </tr>
-            {% endfor %}
-        </table>
-        <h5>7: Créer une page user profile et lister toutes les armes de l'utilisateur connecté trié par weaponType name DESC
-        <a href="{{ path('user_profile') }}">Profile</a></h5>
-        <hr><hr>
-        <h3>Correction</h3>
-        <hr><hr>
-        <h5>8: Créer une contrainte de classe pour que l'utilisateur ne puisse avoir qu'une seule arme légendaire</h5>
-        <h5>9: Sur la page user:profile ajouter une action pour modifier le nombre de munition d'une arme ( uniquement ammunition visible )  </h5>
-        <h5>10: Sur la page user:profile lister tous les WeaponType et ajouter une action pour que l'utilisateur s'ajoute une arme de ce type<br />
-            du type : <a href="{{ path('weapon_new', {'id': 2}) }}">Prendre le "RIVOLVER"</a><br />
-            En clair je clique, je dois n'avoir que les champs names - ammunition - inHand ( si Admin ) et scarcity
+
+        <h4 class="">
+            Tp du jour &#128584; sur la page Game:show <a
+                    href="{{ path('game_show', {'id':1}) }}">ICI</a>&#128520;<br/>
+        </h4>
+        <hr>
+        <hr>
+        <h5>1: Créer une régle de validation pour qu'un User ne peut pas être 2 fois dans la même game</h5>
+        <h5>2: Ajouter un bouton pour rejoindre une game dans Game:show ( GameUser:new ) qui automatiquement set
+            le User et la Game en cours<br/>
+            <i><h6>En clair :j'arrive sur le form GameUser:new avec , voulez vous vraiment rejoindre la game X
+                    OUI en dessous vous ajoutez un lien pour annuler et retourner sur la game:show</h6></i>
         </h5>
-        <h5>11: sur la page USer:profile ajouter une fonction pour loader une arme. (inHand à true) 1 seul possible par utilisateur</h5>
-        <h5>12: Gérer la sécurité de la fonction 11 !</h5>
+        <h5>3: Si l'utilisateur est dans la game ne pas afficher le bouton rejoindre mais afficher la liste des
+            utilisateurs ( nom et health ) avec le detail de l'arme qu'ils ont en main ( nom, weapontype:name,
+            damage = damage * scarcity )</h5>
+        <h5>4: Lister toutes les armes disponibles de la game - ( n'appartienne à personne )</h5>
+        <hr><h4>Correction</h4><hr>
+        <h5>5: Créer WeaponTypeType dans form/type qui est un radio bouton trié par name DESC <a target="_blank"
+                                                                                                 href="https://symfony.com/doc/current/reference/forms/types/entity.html#ref-form-entity-query-builder">&#x1F63B;
+                un peu d'aide </a></h5>
+        <h5>6: Ajouter un bouton pour créer une arme Weapon:New et qui utilise WeaponTypeType qui preset
+            directement la game et le gameuser </h5>
+        <h5>7: En tans que Role ADMIN, ajouter un bouton pour pouvoir modifier les armes disponibles ( attention
+            seul les gameuser de la game en cours doivent apparaitre !)</h5>
+        <hr><h4>Correction</h4><hr>
+        <h5>8: Lister les armes de l'utilisateur connecté</h5>
+        <h5>9: Mettre en surbrillance l'arme en main et grisé les armes déchargés</h5>
+        <h5>10: Ajouter un bouton + fonction pour prendre une arme en main</h5>
+        <h5>11: A coter de chaque User de la game, ajouter un bouton pour lui tirer dessus et créer la méthode userGame:shoot ( retirer des point de vie à l'user et retirer une munition de l'arme)</h5>
+        <hr><h4>Correction</h4><hr>
+        <h5>12: Tester la fonction userGame:shoot</h5>
+        <hr><h4>Correction</h4><hr>
+
+
     </div>
     <hr>
     <hr>

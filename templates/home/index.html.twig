@@ -6,155 +6,39 @@
 
     <div class="row">
         <div class="col-12">
-            <h1 class="text-center">Les Events dans les forms ( service de sécurité )</h1>
+            <h1 class="text-center">Les test unitaires</h1>
         </div>
         <div class="col-12">
-            <h3>Ou je trouve çà : <a href="https://symfony.com/doc/current/form/events.html" target="_blank">Ici</a>
+            <h3>Ou je trouve çà : <a href="https://symfony.com/doc/current/testing.html" target="_blank">Ici</a>
             </h3>
         </div>
         <hr>
         <div class="col-12">
-            <h2 class="">Le principe :<br/></h2>
-            <h3 class="">Modifier un formulaire en fonction d'autres données ( Utilisateur, argument passé en parametre
-                )<br/></h3>
-            <h4 class="">Bonus :</h4>
-            <h6 class="alert-primary alert">L'injection de parametre depuis le .env vers un formulaire</h6>
-            <h6 class="alert-primary alert">Les macros twig</h6>
+            <h2 class="">La règle :<br/></h2>
+            <h3 class="">- Faire du code de qualité</h3>
+            <h3 class="">- Faire du code de qualité</h3>
+            <h3 class="">- Faire du code de qualité</h3>
+            <h3 class="">Et surtout pourvoir travailler tous ensemble sur un projet dans les meilleures conditions :)</h3>
         </div>
         <div class="col-12">
-            <h4 class="">Formulaire : UserType</h4>
+            <h3>Ou ca se passe dans un projet symfony.</h3>
+            <h4>Dans le dossier tests : --<br/>
+                - La classe suffixer par Test <br/>
+                - les méthodes préfixer par test</h4>
             <code>
-                Dans le controller User:New<br/>
-                public function new(Request $request, UserPasswordEncoderInterface $encoder, $usernameDefault): Response<br/>
-                D'ou il sort le : $usernameDefault/><br/>
-                service.yml =><br/>
-                parameters:<br/>
-                username_default: '%env(USERNAME_DEFAULT)%'<----------- .env :)<br/>
-                <br/>
-                services:<br/>
-                # default configuration for services in *this* file<br/>
-                _defaults:<br/>
-                autowire: true # Automatically injects dependencies in your services.<br/>
-                autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.<br/>
-                bind:<br/>
-                $usernameDefault: '%username_default%' <----------- ici merci<br/>
-                $form = $this->createForm(UserType::class, $user, ['usernameDefault' => $usernameDefault ]);<br/><br/>
-                Dans le form user UserType<br/>
-                use Symfony\Component\Form\FormEvent;<br/>
-                use Symfony\Component\Form\FormEvents;<br/>
-                <br/>
-                use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;<br/>
-                use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;<br/>
-                <br/>
-                <br/>
-                class UserType extends AbstractType<br/>
-                {<br/>
-                private $tokenStorage;<br/>
-                private $authorizationChecker;<br/>
-                <br/>
-                private $usernameDefault;<br/>
-                <br/>
-                public function __construct(TokenStorageInterface $tokenStorage, AuthorizationCheckerInterface
-                $authorizationChecker)<br/>
-                {<br/>
-                $this->tokenStorage = $tokenStorage; // le token utilisateur<br/>
-                $this->authorizationChecker = $authorizationChecker; // le service de controle d'utilisateur<br/>
-                }<br/>
-                <br/>
-                <br/>
-                public function buildForm(FormBuilderInterface $builder, array $options)<br/>
-                {<br/>
-                $this->usernameDefault = $options['usernameDefault'];<br/>
-                <br/>
-                $builder<br/>
-                ->add('username')<br/>
-                ->add('roles', RolesType::class)<br/>
-                ->add('health', UserHealthType::class)<br/>
-                ->add('createdAt')<br/>
-                ->add('plainPassword', PasswordType::class, ['mapped' => false, 'required' => false] )<br/>
-                ->addEventListener(<br/>
-                FormEvents::PRE_SET_DATA,<br/>
-                [$this, 'onPreSetData']<br/>
-                )<br/>
-                ;<br/>
-                }<br/>
-                <br/>
-                public function onPreSetData(FormEvent $event)<br/>
-                {<br/>
-                $form = $event->getForm(); //récupération du formulaire<br/>
-                <br/>
-                /** @var $entity User */<br/>
-                $entity = $event->getData(); //récupération de l'entité<br/>
-                <br/>
-                if($this->authorizationChecker->isGranted('ROLE_ADMIN') === false)// Check les roles<br/>
-                {<br/>
-                $form->remove('plainPassword');<br/>
-                }<br/>
-                <br/>
-                if($entity->getUsername() === $this->tokenStorage->getToken()->getUser()->getUsername()) //recupere
-                l'utilisateur et check si c'est celui du formulaire<br/>
-                {<br/>
-                $form->remove('username');<br/>
-                }<br/>
-                <br/>
-                if($entity->getId() === null)//si je suis en création<br/>
-                {<br/>
-                $entity->setUsername($this->usernameDefault);<br/>
-                <br/>
-                $form->remove('health');<br/>
-                $form->remove('createdAt');<br/>
-                $entity->setHealth(50);<br/>
-                $entity->setCreatedAt(new \DateTime('now'));<br/>
-                }else//si je suis en édition<br/>
-                {<br/>
-                $form->add('changePassword',PasswordType::class, ['mapped' => false, 'required' => false]);<br/>
-                }<br/>
-                }<br/>
-                <br/>
-                public function configureOptions(OptionsResolver $resolver)<br/>
-                {<br/>
-                $resolver->setDefaults([<br/>
-                'data_class' => User::class,<br/>
-                'usernameDefault' => null<br/>
-                ]);<br/>
-                }<br/>
-                }<br/>
+                composer require --dev symfony/phpunit-bridge<br/>
+                composer require --dev symfony/browser-kit symfony/css-selector<br/>
+                ./bin/phpunit
             </code>
+            <h4>
+                Pour lancer les test : ./bin/phpunit ( Plus le dossier / class / ... )
+            </h4>
         </div>
-        <hr>
 
         <div class="col-12">
-            <h5>les macros :</h5>
-            <h6>{% verbatim %}
-                        <code>
-                                {% macro scarcity(value) %}<br />
-                                        <span class="scarcity" style=<br />
-                                        {% if value is same as(1) %}<br />
-                                        "color:grey;    ">Commun<br />
-    {% endif %}<br />
-                                                {% if value is same as(2) %}<br />
-                                                        "color:white;    ">Rare<br />
-                                                {% endif %}<br />
-                                                {% if value is same as(4) %}<br />
-                                                        "color:purple;    ">Epique<br />
-                                                {% endif %}<br />
-                                                {% if value is same as(8) %}<br />
-                                                        "color:orange;    ">Legendaire<br />
-                                                {% endif %}<br />
-                                        <br />
-    </span><br />
-                                {% endmacro %}<br />
-
-                        </code>{% endverbatim %}
-            </h6>
-            <h5><code>
-                    {% verbatim %}<br />
-                            {% import "macros.html.twig" as macros %}<br />
-                            <br />
-                            {{ macros.scarcity(weapon.scarcity) }}<br />
-                        {% endverbatim %}<br/>
-                </code>
-            </h5>
+            <h4>
+                Mon premier vrai test
+            </h4>
         </div>
 
         <div class="col-12">

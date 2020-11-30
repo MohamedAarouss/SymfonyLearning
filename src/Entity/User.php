@@ -15,7 +15,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class User implements UserInterface
 {
-    const MAX_HEALTH = 100;
 
     /**
      * @ORM\Id()
@@ -35,19 +34,6 @@ class User implements UserInterface
      * @ORM\Column(type="array")
      */
     private $roles = [];
-
-    /**
-     * @Assert\Range(
-     *      min = 0,
-     *      max = 100,
-     *      minMessage = "You must be at least {{ limit }} health",
-     *      maxMessage = "You cannot have more than {{ limit }} health"
-     * )
-     *
-     * @ORM\Column(type="integer")
-     */
-    private $health;
-
 
     /**
      * @ORM\Column(type="datetime")
@@ -147,31 +133,6 @@ class User implements UserInterface
         }
         return $this;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getHealth(): ?int
-    {
-        return $this->health;
-    }
-
-    /**
-     * @param mixed $health
-     */
-    public function setHealth(int $health): void
-    {
-        $this->health = $health;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getEnabled(): ?bool
-    {
-        return ($this->health > 0 ? true : false);
-    }
-
 
     /**
      * @return mixed

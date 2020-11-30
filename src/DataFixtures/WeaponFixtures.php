@@ -21,6 +21,7 @@ class WeaponFixtures extends Fixture implements DependentFixtureInterface
             $weapon->setAmmunition(30);
             $weapon->setScarcity($scarcity[\rand(0,3)]);
             $weapon->setInHand(false);
+            $weapon->setGame($this->getReference('game '. \rand(1,2)));
             $this->addReference($weapon->getName(), $weapon);
             $manager->persist($weapon);
         }
@@ -31,11 +32,12 @@ class WeaponFixtures extends Fixture implements DependentFixtureInterface
         {
             $weapon =  new Weapon();
             $weapon->setWeaponType($this->getReference('weapontype'.\rand(0,4)));
-            $weapon->setUser($this->getReference('user'.$i));
+            $weapon->setGameUser($this->getReference('gameuser'. \rand(1, 25)));
             $weapon->setName($weapon->getWeaponType()->getName().' - '.$weapon->getWeaponType()->getDamage() . ' - ' .$i*100 );
             $weapon->setAmmunition(30);
             $weapon->setScarcity($scarcity[\rand(0,3)]);
             $weapon->setInHand(false);
+            $weapon->setGame($this->getReference('game '. \rand(1,2)));
             $this->addReference($weapon->getName(), $weapon);
             $manager->persist($weapon);
         }
@@ -52,7 +54,8 @@ class WeaponFixtures extends Fixture implements DependentFixtureInterface
     {
         return array(
             UserFixtures::class,
-            WeaponTypeFixtures::class
+            WeaponTypeFixtures::class,
+            GameFixtures::class
         );
     }
 
