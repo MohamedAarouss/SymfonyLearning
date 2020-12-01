@@ -16,6 +16,13 @@ class Calculate{
 
     public function addTwoValueWithThreshold($a, $b){
 
+        if(!is_int($a)){
+            throw new \InvalidArgumentException('first argument is not a int');
+        }
+        if(!is_int($b)){
+            throw new \InvalidArgumentException('second argument is not a int');
+        }
+
         $sum =  $a + $b;
 
         if($sum < self::min){

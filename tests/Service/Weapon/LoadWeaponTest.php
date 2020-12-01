@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Service\WeaponUser;
+namespace App\Tests\Service\Weapon;
 
 use App\Entity\User;
 use App\Entity\Weapon;
