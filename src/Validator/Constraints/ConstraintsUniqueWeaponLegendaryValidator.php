@@ -27,8 +27,8 @@ class ConstraintsUniqueWeaponLegendaryValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, ConstraintsUniqueWeaponLegendary::class);
         }
 
-        if($weapon->getUser() instanceof User && $weapon->getScarcity() === 8){
-            $exist = $this->weaponRepository->findOneBy(['User' => $weapon->getUser(), 'scarcity' => 8]);
+        if($weapon->getGameUser() instanceof GameUser && $weapon->getScarcity() === 8){
+            $exist = $this->weaponRepository->findOneBy(['GameUser' => $weapon->getGameUser(), 'scarcity' => 8]);
 
             if($exist instanceof Weapon){
                 if($weapon->getId() !== $exist->getId()){

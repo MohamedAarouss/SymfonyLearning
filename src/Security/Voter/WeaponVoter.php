@@ -2,6 +2,7 @@
 
 namespace App\Security\Voter;
 
+use App\Entity\GameUser;
 use App\Security\Voter\AppAccess;
 use App\Entity\User;
 use App\Entity\Weapon;
@@ -39,7 +40,7 @@ class WeaponVoter extends Voter
             return false;
         }
 
-        if(!$subject->getUser() instanceof User){
+        if(!$subject->getGameUser() instanceof GameUser){
             return true;
         }
 
@@ -51,7 +52,7 @@ class WeaponVoter extends Voter
             case AppAccess::WEAPON_SHOW:
             case AppAccess::WEAPON_EDIT:
             case AppAccess::WEAPON_DELETE:
-                return $subject->getUser()->getId() === $user->getId();
+                return $subject->getGameUser()->getUser()->getId() === $user->getId();
                 break;
         }
     }

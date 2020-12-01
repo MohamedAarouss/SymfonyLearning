@@ -4,6 +4,7 @@ namespace App\Tests\Service\WeaponUser;
 
 use App\Entity\User;
 use App\Entity\Weapon;
+use App\Repository\WeaponRepository;
 use App\Service\Weapon\Load;
 use PHPUnit\Framework\TestCase;
 
@@ -19,9 +20,9 @@ class LoadWeaponTest extends TestCase{
     private function initLoadWeapon($repoData){
 
 
-        $repo = $this->createMock(ServiceEntityRepository::class);
+        $repo = $this->createMock(WeaponRepository::class);
         $repo->expects($this->once())
-            ->method('findBy')
+            ->method('findWeaponByUser')
             ->willReturn($repoData);
         $em = $this->createMock(EntityManager::class);
         $em->expects($this->once())
@@ -61,6 +62,16 @@ class LoadWeaponTest extends TestCase{
         $loadWeapon = $this->initLoadWeapon();
 
         $loadWeapon->load(null);
+    }
+
+    /**
+     * @expectedException TypeError
+     */
+    public function testLoadWithWeaponStrange(){
+
+        $loadWeapon = $this->initLoadWeapon();
+
+        $loadWeapon->load("une poule");
     }
 
     public function testLoadWithOneWeaponUnload()

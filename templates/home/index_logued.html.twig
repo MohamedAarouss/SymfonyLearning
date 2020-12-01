@@ -29,31 +29,35 @@
         </h4>
         <hr>
         <hr>
-        <h5>1: Créer une régle de validation pour qu'un User ne peut pas être 2 fois dans la même game</h5>
-        <h5>2: Ajouter un bouton pour rejoindre une game dans Game:show ( GameUser:new ) qui automatiquement set
-            le User et la Game en cours<br/>
-            <i><h6>En clair :j'arrive sur le form GameUser:new avec , voulez vous vraiment rejoindre la game X
-                    OUI en dessous vous ajoutez un lien pour annuler et retourner sur la game:show</h6></i>
-        </h5>
-        <h5>3: Si l'utilisateur est dans la game ne pas afficher le bouton rejoindre mais afficher la liste des
-            utilisateurs ( nom et health ) avec le detail de l'arme qu'ils ont en main ( nom, weapontype:name,
-            damage = damage * scarcity )</h5>
-        <h5>4: Lister toutes les armes disponibles de la game - ( n'appartienne à personne )</h5>
+        <h5>0: Réaliser tous les test possible sur : App\Service\Calculate</h5>
         <hr><h4>Correction</h4><hr>
-        <h5>5: Créer WeaponTypeType dans form/type qui est un radio bouton trié par name DESC <a target="_blank"
+        <h5>1: Créer une règle de validation pour qu'un User ne puisse pas être ajouté 2 fois dans la même game et l'appliquer</h5>
+        <h5>2: Ajouter un bouton pour "rejoindre cette partie " dans la page du tp du jour qui redirige vers sur GameUser:new et qui automatiquement set
+            le User et la Game en cours.<br/>
+            Sur cette page, seul le bouton "m'inscrire à nom de la game " doit être affiché.<br />
+            Apres le click redirection sur la page du tp du jour Game:Show avec un message toast/callback.
+        </h5>
+        <h5>3: Si l'utilisateur est déjà dans la game ne pas afficher le bouton du dessus mais afficher la liste des
+            utilisateurs ( nom et health ) avec l'arme qu'ils ont en main ( nom, weapontype:name,  damage = damage * scarcity )</h5>
+        <h5><i>Exemple : Zimzim - 500 PV : Sniper Boum boum - Sniper - 2000 Dégats </i></h5>
+        <h5>4: Au dessus de cette liste d'utilisateur lister toutes les armes disponibles dans la game - ( n'appartenant à personne )</h5>
+        <hr><h4>Correction</h4><hr>
+        <h5>5: Créer un champ WeaponTypeType qui est un radio bouton trié par name DESC et l'utiliser dans le formulaire WeaponType<a target="_blank"
                                                                                                  href="https://symfony.com/doc/current/reference/forms/types/entity.html#ref-form-entity-query-builder">&#x1F63B;
                 un peu d'aide </a></h5>
-        <h5>6: Ajouter un bouton pour créer une arme Weapon:New et qui utilise WeaponTypeType qui preset
-            directement la game et le gameuser </h5>
-        <h5>7: En tans que Role ADMIN, ajouter un bouton pour pouvoir modifier les armes disponibles ( attention
+        <h5>6: Ajouter un bouton tout en haut dans le menu pour créer une arme Weapon:New et qui utilise WeaponTypeType qui preset
+            directement la game,le gameuser, les munitions au max et le nom sera : nom de la game - nom d'utilisateur - type d'arme</h5>
+        <h5>7: En tans que Role ADMIN, ajouter un bouton pour pouvoir modifier les armes disponibles <span class="badge badge-success">( 4 )</span> ( attention
             seul les gameuser de la game en cours doivent apparaitre !)</h5>
         <hr><h4>Correction</h4><hr>
         <h5>8: Lister les armes de l'utilisateur connecté</h5>
         <h5>9: Mettre en surbrillance l'arme en main et grisé les armes déchargés</h5>
         <h5>10: Ajouter un bouton + fonction pour prendre une arme en main</h5>
-        <h5>11: A coter de chaque User de la game, ajouter un bouton pour lui tirer dessus et créer la méthode userGame:shoot ( retirer des point de vie à l'user et retirer une munition de l'arme)</h5>
         <hr><h4>Correction</h4><hr>
-        <h5>12: Tester la fonction userGame:shoot</h5>
+        <h5>11: Tester la fonction ci dessus</h5>
+        <h5>12: A coter de chaque User de la game, ajouter un bouton pour lui tirer dessus et créer la méthode userGame:shoot ( retirer des point de vie à l'user et retirer une munition de l'arme)</h5>
+        <hr><h4>Correction</h4><hr>
+        <h5>13: Tester la fonction userGame:shoot</h5>
         <hr><h4>Correction</h4><hr>
 
 

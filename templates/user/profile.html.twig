@@ -16,7 +16,7 @@
         <div class="small-12 columns">
             {% for weaponType in weaponsType %}
                 <h5>{{ weaponType.name }} ==> weaponType.damage
-                    <a class="badge badge-success" href="{{ path('weapon_new', {'id': weaponType.id}) }}">
+                    <a class="badge badge-success" href="{{ path('weapon_new') }}">
                         Prendre {{ weaponType.name }}
                     </a>
                 </h5>
@@ -35,7 +35,7 @@
                     {% endif %}
                     {{ weapon.WeaponType.name }}
                     ==> {{ weapon.name }} :
-                    <a href="{{ path('weapon_edit', {'id': weapon.id, 'profile': 'profile'}) }}">{{ weapon.ammunition }}
+                    <a href="{{ path('weapon_edit', {'id': weapon.id}) }}">{{ weapon.ammunition }}
                         : </a>{{ macros.scarcity(weapon.scarcity) }}
                 </h5>
             {% endfor %}

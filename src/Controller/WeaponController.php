@@ -32,12 +32,12 @@ class WeaponController extends AbstractController
     }
 
     /**
-     * @Route("/new/{id}", name="weapon_new", methods={"GET","POST"}, defaults={"id":null})
+     * @Route("/new", name="weapon_new", methods={"GET","POST"})
      */
-    public function new(Request $request, WeaponTypeEntity $WeaponType = null): Response
+    public function new(Request $request): Response
     {
         $weapon = new Weapon();
-        $form = $this->createForm(WeaponType::class, $weapon, ['weapon_type' => $WeaponType]);
+        $form = $this->createForm(WeaponType::class, $weapon);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -45,16 +45,12 @@ class WeaponController extends AbstractController
             $entityManager->persist($weapon);
             $entityManager->flush();
 
-            if($WeaponType !== null){
-                return $this->redirectToRoute('user_profile');
-            }
             return $this->redirectToRoute('weapon_index');
         }
 
         return $this->render('weapon/new.html.twig', [
             'weapon' => $weapon,
-            'form' => $form->createView(),
-            'WeaponType' => $WeaponType
+            'form' => $form->createView()
         ]);
     }
 
@@ -74,27 +70,20 @@ class WeaponController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit/{profile}", name="weapon_edit", methods={"GET","POST"}, defaults={"profile":null})
+     * @Route("/{id}/edit", name="weapon_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Weapon $weapon, string $profile = null): Response
+    public function edit(Request $request, Weapon $weapon): Response
     {
 
         $this->denyAccessUnlessGranted(AppAccess::WEAPON_EDIT, $weapon);
 
         $options = [];
-        if($profile !== null){
-            $options = ['ammunition' => true];
-        }
-
         $form = $this->createForm(WeaponType::class, $weapon, $options);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            if($profile !== null){
-                return $this->redirectToRoute('user_profile');
-            }
             return $this->redirectToRoute('weapon_index');
         }
 

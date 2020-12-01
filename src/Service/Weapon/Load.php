@@ -2,6 +2,7 @@
 
 namespace App\Service\Weapon;
 
+use App\Entity\GameUser;
 use App\Entity\Weapon;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -24,7 +25,7 @@ class Load
 
     public function load(Weapon $weapon)
     {
-        $weapons = $this->em->getRepository(Weapon::class)->findBy(['User' => $this->token->getToken()->getUser()]);
+        $weapons = $this->em->getRepository(Weapon::class)->findWeaponByUser($this->token->getToken()->getUser());
 
         array_map(function ($obj) {
             $obj->setInHand(false);

@@ -34,65 +34,22 @@ class WeaponType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $this->weaponType = $options['weapon_type'];
-        $this->ammunition = $options['ammunition'];
-
         $builder
             ->add('name')
             ->add('ammunition', AmmunitionType::class)
             ->add('inHand')
             ->add('scarcity', ScarcityType::class)
-            ->add('User')
-            ->add('WeaponType')
-            ->addEventListener(
-                FormEvents::PRE_SET_DATA,
-                [$this, 'onPreSetData']
-            );
+            ->add('Game')
+            ->add('GameUser')
+            ->add('WeaponType');
     }
 
-    public function onPreSetData(FormEvent $event)
-    {
-        $form = $event->getForm();
-
-        /** @var $weapon Weapon */
-        $weapon = $event->getData();
-
-        if($weapon->getId() === null){
-
-            if($this->weaponType !== null){
-                $weapon->setWeaponType($this->weaponType);
-                $form->remove('WeaponType');
-
-                $weapon->setUser($this->tokenStorage->getToken()->getUser());
-                $form->remove('User');
-
-                $weapon->setName(
-                    $this->weaponType->getName().' de '.$this->tokenStorage->getToken()->getUser()->getUsername()
-                );
-
-                $weapon->setAmmunition(Weapon::MAX_AMMUNITION);
-                $form->remove('ammunition');
-
-                $weapon->setInHand(false);
-                $form->remove('inHand');
-
-            }
-
-        }else{
-
-            if( $this->ammunition === true){
-                $form->remove('name')->remove('inHand')->remove('scarcity')->remove('User')->remove('WeaponType');
-            }
-        }
-    }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
             [
-                'data_class' => Weapon::class,
-                'weapon_type' => null,
-                'ammunition' => null
+                'data_class' => Weapon::class
             ]
         );
     }
