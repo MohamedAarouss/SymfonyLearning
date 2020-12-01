@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Game;
 use App\Entity\GameUser;
 use App\Form\GameUserType;
 use App\Repository\GameUserRepository;
@@ -26,18 +27,23 @@ class GameUserController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="game_user_new", methods={"GET","POST"})
+     * @Route("/new/{id}", name="game_user_new", methods={"GET","POST"}, defaults={"id":null}, requirements={"id":"\d"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Game $game = null): Response
     {
         $gameUser = new GameUser();
-        $form = $this->createForm(GameUserType::class, $gameUser);
+        $form = $this->createForm(GameUserType::class, $gameUser, ['game' => $game]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($gameUser);
             $entityManager->flush();
+
+            if(isset($game)){
+                $this->addFlash('success', "Great you are in the game ". $game->getName());
+                return $this->redirectToRoute('game_show', ['id'=> $game->getId()]);
+            }
 
             return $this->redirectToRoute('game_user_index');
         }

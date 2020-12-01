@@ -1,30 +1,72 @@
 {% extends 'base.html.twig' %}
 
+{% import "macros.html.twig" as macros %}
+
 {% block title %}Game{% endblock %}
 
 {% block body %}
-    <h1>Game</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ game.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ game.name }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ game.createdAt ? game.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <a href="{{ path('game_index') }}">back to list</a>
+    {% if is_granted(constant('App\\Security\\Voter\\AppAccess::GAME_INGAME'), game) is same as(true) %}
+        <h1 class="text-center">Welcome {{ gameUser.User.username }} to {{ game.name }}</h1>
+        <div class="row">
+            <div class="col-6">
+                <h4 class="text-center">
+                    Users
+                </h4>
+                <div class="row">
+                    {% for gameUserInfo in gameUsersInfo  %}
+                        {% if gameUser.id is not same as(gameUserInfo.gameUser.id) %}
+                        <div class="col-6">
+                            <h5 class="text-center">{{ gameUserInfo.gameUser.user.username }} - {{ gameUserInfo.gameUser.health }}</h5>
+                        </div>
+                        <div class="col-6">
+                            {% if gameUserInfo.weapon is not null %}
+                                <h5 class="text-center">{{ gameUserInfo.weapon.weapontype.name }} - {{ gameUserInfo.getReelDamage(gameUserInfo.weapon) }}</h5>
+                            {% else %}
+                                <h5 class="text-center">Pas d'arme chargé</h5>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-6">
+                <h4 class="text-center">
+                    Weapons
+                </h4>
+                <div class="row ">
+                    {% for weapon in weapons %}
+                        <div class="col-3">
+                            <h5 class="text-left">
+                                {{ weapon.weaponType.name }}
+                            </h5>
+                        </div>
+                        <div class="col-9">
+                            <h5 class="text-left">
+                                {{ weapon.weaponType.damage }} - {{ macros.scarcity(weapon.scarcity) }}
+                            </h5>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="row">
+            <div class="col-12">
+                <h5 class="text-center"><a class="btn btn-success text-center" href="{{ path('game_user_new', {'id': game.id}) }}">m'inscrire à {{ game.name }}</a></h5>
+            </div>
+        </div>
+    {% endif %}
 
-    <a href="{{ path('game_edit', {'id': game.id}) }}">edit</a>
-
+    <div class="row">
+        <div class="col-6">
+            <a href="{{ path('game_index') }}">back to list</a>
+        </div>
+        <div class="col-6">
+            <a href="{{ path('game_edit', {'id': game.id}) }}">edit</a>
+        </div>
+    </div>
     {{ include('game/_delete_form.html.twig') }}
 {% endblock %}
+

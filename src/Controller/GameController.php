@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Entity\Game;
 use App\Form\GameType;
 use App\Repository\GameRepository;
+use App\Repository\GameUserRepository;
+use App\Repository\WeaponRepository;
+use App\Service\GameUser\LoadGameUserInfo;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,12 +54,36 @@ class GameController extends AbstractController
     /**
      * @Route("/{id}", name="game_show", methods={"GET"})
      */
-    public function show(Game $game): Response
+    public function show(
+        Game $game,
+        GameUserRepository $gameUserRepository,
+        WeaponRepository $weaponRepository,
+        LoadGameUserInfo $loadGameUserInfo
+    ): Response
     {
-        return $this->render('game/show.html.twig', [
-            'game' => $game,
-        ]);
+        $gameUser = $gameUserRepository->findOneBy(['User' => $this->getUser(), 'Game' => $game]);
+
+        $gameUsers = $gameUserRepository->findBy(['Game' => $game]);
+
+        $weapons = $weaponRepository->findBy(['Game' => $game]);
+
+        $gameUsersInfo = [];
+
+        foreach($gameUsers as $gameU){
+            $gameUsersInfo[] = $loadGameUserInfo->load($gameU);
+        }
+
+        return $this->render(
+            'game/show.html.twig',
+            [
+                'game' => $game,
+                'gameUser' => $gameUser,
+                'gameUsersInfo' => $gameUsersInfo,
+                'weapons' => $weapons
+            ]
+        );
     }
+
 
     /**
      * @Route("/{id}/edit", name="game_edit", methods={"GET","POST"})

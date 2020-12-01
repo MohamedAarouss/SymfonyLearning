@@ -10,6 +10,8 @@
             <tr>
                 <th>Id</th>
                 <th>Health</th>
+                <th>User</th>
+                <th>Game</th>
                 <th>CreatedAt</th>
                 <th>actions</th>
             </tr>
@@ -19,6 +21,8 @@
             <tr>
                 <td>{{ game_user.id }}</td>
                 <td>{{ game_user.health }}</td>
+                <td>{{ game_user.user }}</td>
+                <td>{{ game_user.game }}</td>
                 <td>{{ game_user.createdAt ? game_user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('game_user_show', {'id': game_user.id}) }}">show</a>
