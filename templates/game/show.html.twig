@@ -37,15 +37,19 @@
                 </h4>
                 <div class="row ">
                     {% for weapon in weapons %}
-                        <div class="col-3">
+                        <div class="col-5">
                             <h5 class="text-left">
                                 {{ weapon.weaponType.name }}
                             </h5>
                         </div>
-                        <div class="col-9">
-                            <h5 class="text-left">
+                        <div class="col-7">
+                            <h5 class="text-right">
                                 {{ weapon.weaponType.damage }} - {{ macros.scarcity(weapon.scarcity) }}
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <a href="{{ path('weapon_edit', {'id':weapon.id, 'game': game.id}) }}" class="btn btn-danger">Update</a>
+                                {% endif %}
                             </h5>
+
                         </div>
                     {% endfor %}
                 </div>

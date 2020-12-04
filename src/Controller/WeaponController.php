@@ -27,9 +27,12 @@ class WeaponController extends AbstractController
      */
     public function index(WeaponRepository $weaponRepository): Response
     {
-        return $this->render('weapon/index.html.twig', [
-            'weapons' => $weaponRepository->findAll(),
-        ]);
+        return $this->render(
+            'weapon/index.html.twig',
+            [
+                'weapons' => $weaponRepository->findAll(),
+            ]
+        );
     }
 
     /**
@@ -41,18 +44,28 @@ class WeaponController extends AbstractController
         $form = $this->createForm(WeaponType::class, $weapon, ['game' => $game]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if($form->isSubmitted() && $form->isValid()){
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($weapon);
             $entityManager->flush();
 
+            if($game !== null){
+
+                $this->addFlash('success', 'Ajout de l\'arme '.$weapon->getName().' réussit :)');
+
+                return $this->redirectToRoute('game_show', ['id' => $game->getId()]);
+            }
+
             return $this->redirectToRoute('weapon_index');
         }
 
-        return $this->render('weapon/new.html.twig', [
-            'weapon' => $weapon,
-            'form' => $form->createView()
-        ]);
+        return $this->render(
+            'weapon/new.html.twig',
+            [
+                'weapon' => $weapon,
+                'form' => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -62,36 +75,49 @@ class WeaponController extends AbstractController
     {
         if($this->isGranted(AppAccess::WEAPON_SHOW, $weapon) === false){
             $this->addFlash('error', 'you cannot access to this object !');
+
             return $this->redirectToRoute('weapon_index');
         }
 
-        return $this->render('weapon/show.html.twig', [
-            'weapon' => $weapon,
-        ]);
+        return $this->render(
+            'weapon/show.html.twig',
+            [
+                'weapon' => $weapon,
+            ]
+        );
     }
 
     /**
-     * @Route("/{id}/edit", name="weapon_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit/{game}", name="weapon_edit", methods={"GET","POST"}, requirements={"game":"\d"})
      */
-    public function edit(Request $request, Weapon $weapon): Response
+    public function edit(Request $request, Weapon $weapon, Game $game = null): Response
     {
 
         $this->denyAccessUnlessGranted(AppAccess::WEAPON_EDIT, $weapon);
 
-        $options = [];
-        $form = $this->createForm(WeaponType::class, $weapon, $options);
+        $form = $this->createForm(WeaponType::class, $weapon, ['game' => $game]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if($form->isSubmitted() && $form->isValid()){
             $this->getDoctrine()->getManager()->flush();
+
+            if($game !== null){
+
+                $this->addFlash('success', 'Modification de l\'arme '.$weapon->getName().' réussit :)');
+
+                return $this->redirectToRoute('game_show', ['id' => $game->getId()]);
+            }
 
             return $this->redirectToRoute('weapon_index');
         }
 
-        return $this->render('weapon/edit.html.twig', [
-            'weapon' => $weapon,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'weapon/edit.html.twig',
+            [
+                'weapon' => $weapon,
+                'form' => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -101,7 +127,7 @@ class WeaponController extends AbstractController
     {
         $this->denyAccessUnlessGranted(AppAccess::WEAPON_DELETE, $weapon);
 
-        if ($this->isCsrfTokenValid('delete'.$weapon->getId(), $request->request->get('_token'))) {
+        if($this->isCsrfTokenValid('delete'.$weapon->getId(), $request->request->get('_token'))){
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($weapon);
             $entityManager->flush();
@@ -120,6 +146,7 @@ class WeaponController extends AbstractController
 
         if($this->isGranted(AppAccess::WEAPON_SHOW, $weapon) === false){
             $this->addFlash('danger', 'you cannot load a weapon that does not belong to you !');
+
             return $this->redirectToRoute('user_profile');
         }
 
