@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Game;
 use App\Entity\Weapon;
 use App\Entity\WeaponType as WeaponTypeEntity;
 use App\Form\WeaponType;
@@ -32,12 +33,12 @@ class WeaponController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="weapon_new", methods={"GET","POST"})
+     * @Route("/new/{game}", name="weapon_new", methods={"GET","POST"}, requirements={"game":"\d"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Game $game = null): Response
     {
         $weapon = new Weapon();
-        $form = $this->createForm(WeaponType::class, $weapon);
+        $form = $this->createForm(WeaponType::class, $weapon, ['game' => $game]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

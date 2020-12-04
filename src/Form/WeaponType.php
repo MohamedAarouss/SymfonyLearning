@@ -41,7 +41,7 @@ class WeaponType extends AbstractType
             ->add('scarcity', ScarcityType::class)
             ->add('Game')
             ->add('GameUser')
-            ->add('WeaponType');
+            ->add('WeaponType', \App\Form\Type\WeaponTypeType::class);
     }
 
 
@@ -49,7 +49,8 @@ class WeaponType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => Weapon::class
+                'data_class' => Weapon::class,
+                'game' => null
             ]
         );
     }

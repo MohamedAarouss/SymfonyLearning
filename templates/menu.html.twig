@@ -20,6 +20,11 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('weapon_type_index') }}">Weapon Type</a>
             </li>
+            {% if game is defined %}
+                <li class="nav-item">
+                    <a class="btn btn-success" href="{{ path('weapon_new', {'game': game.id}) }}">Create new Weapon</a>
+                </li>
+            {% endif %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('user_index') }}">Users</a>
             </li>
