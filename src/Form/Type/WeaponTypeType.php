@@ -22,7 +22,7 @@ class WeaponTypeType extends AbstractType
                     ->orderBy('wp.name', 'DESC');
             },
             'choice_label' => 'name',
-            'compound' => false,
+            'expanded' => true,
             'multiple' => false,
         ]);
     }
