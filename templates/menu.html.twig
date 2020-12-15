@@ -1,6 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Menu</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -21,16 +22,19 @@
                 <a class="nav-link" href="{{ path('weapon_type_index') }}">Weapon Type</a>
             </li>
             {% if game is defined %}
-                <li class="nav-item">
-                    <a class="btn btn-success" href="{{ path('weapon_new', {'game': game.id}) }}">Create new Weapon</a>
-                </li>
+                {% if game is not null and game.id is not null %}
+                    <li class="nav-item">
+                        <a class="btn btn-success" href="{{ path('weapon_new', {'game': game.id}) }}">Create new
+                            Weapon</a>
+                    </li>
+                {% endif %}
             {% endif %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('user_index') }}">Users</a>
             </li>
             {% if is_granted('ROLE_USER') %}
                 <li class="nav-item">
-                    <a  class="nav-link"  href="{{ path('user_profile') }}">Profile</a>
+                    <a class="nav-link" href="{{ path('user_profile') }}">Profile</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_logout') }}">logout</a>
