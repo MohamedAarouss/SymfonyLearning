@@ -40,18 +40,18 @@
         </div>
 
         <div class="row">
-            <div class="col-6">
+            <div class="col-md-6">
                 <h4 class="text-center">
                     Users
                 </h4>
                 <div class="row">
                     {% for gameUserInfo in gameUsersInfo %}
                         {% if gameUser.id is not same as(gameUserInfo.gameUser.id) %}
-                            <div class="col-6">
+                            <div class="col-5">
                                 <h5 class="text-center">{{ gameUserInfo.gameUser.user.username }}
                                     - {{ gameUserInfo.gameUser.health }}</h5>
                             </div>
-                            <div class="col-6">
+                            <div class="col-5">
                                 {% if gameUserInfo.weapon is not null %}
                                     <h5 class="text-center">{{ gameUserInfo.weapon.weapontype.name }}
                                         - {{ gameUserInfo.getReelDamage(gameUserInfo.weapon) }}</h5>
@@ -59,11 +59,14 @@
                                     <h5 class="text-center">Pas d'arme chargé</h5>
                                 {% endif %}
                             </div>
+                        <div class="col-2">
+                            <a  class="btn btn-warning" href="{{ path('game_user_shoot', {'id':gameUserInfo.gameUser.id}) }}">Shoot</a>
+                        </div>
                         {% endif %}
                     {% endfor %}
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-md-6">
                 <h4 class="text-center">
                     Weapons
                 </h4>

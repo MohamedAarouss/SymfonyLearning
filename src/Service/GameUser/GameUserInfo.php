@@ -68,4 +68,8 @@ class GameUserInfo{
         return $weapon->getScarcity() * $weapon->getWeaponType()->getDamage();
     }
 
+    public function canIShoot(Weapon $weapon): bool{
+        return $weapon->getAmmunition() !== 0;
+    }
+
 }

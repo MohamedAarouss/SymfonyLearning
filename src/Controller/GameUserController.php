@@ -6,6 +6,7 @@ use App\Entity\Game;
 use App\Entity\GameUser;
 use App\Form\GameUserType;
 use App\Repository\GameUserRepository;
+use App\Service\GameUser\Shoot;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -100,4 +101,18 @@ class GameUserController extends AbstractController
 
         return $this->redirectToRoute('game_user_index');
     }
+
+    /**
+     * @Route("/shoot/{id}", name="game_user_shoot", methods={"GET"})
+     */
+    public function shoot(GameUser $gameUser, Shoot $shoot){
+
+        //$this->addFlash('success', "Oh My god, ". $gameUser->getUser()->getUsername() ." was shhoted !");
+
+        $shoot->shootGameUser($gameUser);
+
+        return $this->redirectToRoute('game_show', ['id' => $gameUser->getGame()->getId()]);
+
+    }
+
 }

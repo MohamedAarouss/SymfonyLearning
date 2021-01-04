@@ -45,4 +45,16 @@ class WeaponRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findWeaponByUserInHand(User $user)
+    {
+        $qb = $this->createQueryBuilder('w')
+            ->innerJoin('w.GameUser', 'gu')
+            ->where('gu.User = :user')
+            ->setParameter('user', $user);
+            $qb->andWhere('w.inHand = :inHand')
+                ->setParameter('inHand', true);
+        return $qb->getQuery()
+            ->getOneOrNullResult();
+    }
+
 }
