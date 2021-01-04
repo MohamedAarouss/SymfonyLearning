@@ -25,9 +25,12 @@ class GameController extends AbstractController
      */
     public function index(GameRepository $gameRepository): Response
     {
-        return $this->render('game/index.html.twig', [
-            'games' => $gameRepository->findAll(),
-        ]);
+        return $this->render(
+            'game/index.html.twig',
+            [
+                'games' => $gameRepository->findAll(),
+            ]
+        );
     }
 
     /**
@@ -47,10 +50,13 @@ class GameController extends AbstractController
             return $this->redirectToRoute('game_index');
         }
 
-        return $this->render('game/new.html.twig', [
-            'game' => $game,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'game/new.html.twig',
+            [
+                'game' => $game,
+                'form' => $form->createView(),
+            ]
+        );
     }
 
     /**
@@ -64,8 +70,7 @@ class GameController extends AbstractController
         GameUserRepository $gameUserRepository,
         WeaponRepository $weaponRepository,
         LoadGameUserInfo $loadGameUserInfo
-    ): Response
-    {
+    ): Response {
         $gameUser = $gameUserRepository->findOneBy(['User' => $this->getUser(), 'Game' => $game]);
 
         $gameUsers = $gameUserRepository->findBy(['Game' => $game]);
@@ -75,15 +80,14 @@ class GameController extends AbstractController
         $gameUsersInfo = [];
         $gameUserInfo = null;
 
-        foreach($gameUsers as $gameU){
+        foreach ($gameUsers as $gameU) {
             $gameUserInfoTmp = $loadGameUserInfo->load($gameU);
             $gameUsersInfo[] = $gameUserInfoTmp;
 
-            if($gameUserInfoTmp->getGameUser()->getId() === $gameUser->getId()){
+            if ($gameUserInfoTmp->getGameUser()->getId() === $gameUser->getId()) {
                 $gameUserInfo = $gameUserInfoTmp;
             }
         }
-
 
 
         return $this->render(
@@ -93,7 +97,7 @@ class GameController extends AbstractController
                 'gameUser' => $gameUser,
                 'gameUsersInfo' => $gameUsersInfo,
                 'weapons' => $weapons,
-                'gameUserInfo' => $gameUserInfo
+                'gameUserInfo' => $gameUserInfo,
             ]
         );
     }
@@ -113,10 +117,13 @@ class GameController extends AbstractController
             return $this->redirectToRoute('game_index');
         }
 
-        return $this->render('game/edit.html.twig', [
-            'game' => $game,
-            'form' => $form->createView(),
-        ]);
+        return $this->render(
+            'game/edit.html.twig',
+            [
+                'game' => $game,
+                'form' => $form->createView(),
+            ]
+        );
     }
 
     /**

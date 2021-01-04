@@ -8,25 +8,57 @@
 
 
     {% if is_granted(constant('App\\Security\\Voter\\AppAccess::GAME_INGAME'), game) is same as(true) %}
-        <h1 class="text-center">Welcome {{ gameUser.User.username }} to {{ game.name }}</h1>
+        <h1 class="text-center">Welcome {{ gameUserInfo.gameUser.User.username }} to {{ game.name }}</h1>
+
+        <div class="row ">
+            <div class="col-12">
+                <h5 class="text-center">Your weapon</h5>
+            </div>
+            <div class="col-12">
+                {% if gameUserInfo.weapon is not null %}
+                    <div class="alert {% if gameUserInfo.weapon.ammunition is same as(0) %}alert-secondary{% else %}alert-success{% endif %}">
+                        <h5 class="text-center">
+                            {{ macros.detailWeapon(gameUserInfo.weapon, gameUserInfo) }}
+                            {% if gameUserInfo.weapon.ammunition is same as(0) %}
+                                <a class="btn btn-primary" href="{{ path('weapon_reload', {'id': gameUserInfo.weapon.id}) }}">Reload</a>
+                            {% endif %}
+                        </h5>
+                    </div>
+                {% endif %}
+                {% for weapon in gameUserInfo.weapons %}
+                    <div {% if weapon.ammunition is same as(0) %}class="alert alert-secondary"{% endif %}>
+                        <h5 class="text-center ">
+                            {{ macros.detailWeapon(weapon, gameUserInfo) }}
+                            <a class="btn btn-success" href="{{ path('weapon_load', {'id': weapon.id, 'game': 'game'}) }}">Load me</a>
+                            {% if weapon.ammunition is same as(0) %}
+                                <a class="btn btn-primary"  href="{{ path('weapon_reload', {'id': weapon.id}) }}">Reload</a>
+                            {% endif %}
+                        </h5>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-6">
                 <h4 class="text-center">
                     Users
                 </h4>
                 <div class="row">
-                    {% for gameUserInfo in gameUsersInfo  %}
+                    {% for gameUserInfo in gameUsersInfo %}
                         {% if gameUser.id is not same as(gameUserInfo.gameUser.id) %}
-                        <div class="col-6">
-                            <h5 class="text-center">{{ gameUserInfo.gameUser.user.username }} - {{ gameUserInfo.gameUser.health }}</h5>
-                        </div>
-                        <div class="col-6">
-                            {% if gameUserInfo.weapon is not null %}
-                                <h5 class="text-center">{{ gameUserInfo.weapon.weapontype.name }} - {{ gameUserInfo.getReelDamage(gameUserInfo.weapon) }}</h5>
-                            {% else %}
-                                <h5 class="text-center">Pas d'arme chargé</h5>
-                            {% endif %}
-                        </div>
+                            <div class="col-6">
+                                <h5 class="text-center">{{ gameUserInfo.gameUser.user.username }}
+                                    - {{ gameUserInfo.gameUser.health }}</h5>
+                            </div>
+                            <div class="col-6">
+                                {% if gameUserInfo.weapon is not null %}
+                                    <h5 class="text-center">{{ gameUserInfo.weapon.weapontype.name }}
+                                        - {{ gameUserInfo.getReelDamage(gameUserInfo.weapon) }}</h5>
+                                {% else %}
+                                    <h5 class="text-center">Pas d'arme chargé</h5>
+                                {% endif %}
+                            </div>
                         {% endif %}
                     {% endfor %}
                 </div>
@@ -46,7 +78,8 @@
                             <h5 class="text-right">
                                 {{ weapon.weaponType.damage }} - {{ macros.scarcity(weapon.scarcity) }}
                                 {% if is_granted('ROLE_ADMIN') %}
-                                    <a href="{{ path('weapon_edit', {'id':weapon.id, 'game': game.id}) }}" class="btn btn-danger">Update</a>
+                                    <a href="{{ path('weapon_edit', {'id':weapon.id, 'game': game.id}) }}"
+                                       class="btn btn-danger">Update</a>
                                 {% endif %}
                             </h5>
 
@@ -58,7 +91,9 @@
     {% else %}
         <div class="row">
             <div class="col-12">
-                <h5 class="text-center"><a class="btn btn-success text-center" href="{{ path('game_user_new', {'id': game.id}) }}">m'inscrire à {{ game.name }}</a></h5>
+                <h5 class="text-center"><a class="btn btn-success text-center"
+                                           href="{{ path('game_user_new', {'id': game.id}) }}">m'inscrire
+                        à {{ game.name }}</a></h5>
             </div>
         </div>
     {% endif %}

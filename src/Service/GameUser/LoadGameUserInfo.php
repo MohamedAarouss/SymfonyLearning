@@ -6,14 +6,18 @@ use App\Entity\GameUser;
 use App\Repository\WeaponRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-class LoadGameUserInfo{
+class LoadGameUserInfo
+{
 
     private $em;
     private $gameUserInfo;
     private $weaponRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, GameUserInfo $gameUserInfo, WeaponRepository $weaponRepository)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        GameUserInfo $gameUserInfo,
+        WeaponRepository $weaponRepository
+    ) {
         $this->em = $entityManager;
         $this->gameUserInfo = $gameUserInfo;
         $this->weaponRepository = $weaponRepository;
@@ -26,7 +30,7 @@ class LoadGameUserInfo{
         $gameUserInfo = clone($this->gameUserInfo);
 
         $gameUserInfo->setGameUser($gameUser);
-        $gameUserInfo->setWeapons($this->weaponRepository->findBy(['GameUser' => $gameUser]));
+        $gameUserInfo->setWeapons($this->weaponRepository->findBy(['GameUser' => $gameUser, 'inHand' => false]));
         $gameUserInfo->setWeapon($this->weaponRepository->findOneBy(['GameUser' => $gameUser, 'inHand' => true]));
 
         return $gameUserInfo;

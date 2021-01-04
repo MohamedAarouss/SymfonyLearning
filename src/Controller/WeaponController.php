@@ -9,6 +9,7 @@ use App\Form\WeaponType;
 use App\Repository\WeaponRepository;
 use App\Security\Voter\AppAccess;
 use App\Service\Weapon\Load;
+use App\Service\Weapon\Reload;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,12 +45,12 @@ class WeaponController extends AbstractController
         $form = $this->createForm(WeaponType::class, $weapon, ['game' => $game]);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($weapon);
             $entityManager->flush();
 
-            if($game !== null){
+            if ($game !== null) {
 
                 $this->addFlash('success', 'Ajout de l\'arme '.$weapon->getName().' réussit :)');
 
@@ -73,7 +74,7 @@ class WeaponController extends AbstractController
      */
     public function show(Weapon $weapon): Response
     {
-        if($this->isGranted(AppAccess::WEAPON_SHOW, $weapon) === false){
+        if ($this->isGranted(AppAccess::WEAPON_SHOW, $weapon) === false) {
             $this->addFlash('error', 'you cannot access to this object !');
 
             return $this->redirectToRoute('weapon_index');
@@ -98,10 +99,10 @@ class WeaponController extends AbstractController
         $form = $this->createForm(WeaponType::class, $weapon, ['game' => $game]);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            if($game !== null){
+            if ($game !== null) {
 
                 $this->addFlash('success', 'Modification de l\'arme '.$weapon->getName().' réussit :)');
 
@@ -127,7 +128,7 @@ class WeaponController extends AbstractController
     {
         $this->denyAccessUnlessGranted(AppAccess::WEAPON_DELETE, $weapon);
 
-        if($this->isCsrfTokenValid('delete'.$weapon->getId(), $request->request->get('_token'))){
+        if ($this->isCsrfTokenValid('delete'.$weapon->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($weapon);
             $entityManager->flush();
@@ -138,20 +139,47 @@ class WeaponController extends AbstractController
 
 
     /**
-     * @Route("/load/{id}", name="weapon_load", methods={"GET"}, requirements={"id"="\d+"})
+     * @Route("/load/{id}/{game}", name="weapon_load", methods={"GET"}, requirements={"id"="\d+"})
      */
-    public function load(Weapon $weapon, Load $load): Response
+    public function load(Weapon $weapon, Load $load, $game = null): Response
     {
         //$this->addFlash('success', 'Crick Crick');
 
-        if($this->isGranted(AppAccess::WEAPON_SHOW, $weapon) === false){
+        if ($this->isGranted(AppAccess::WEAPON_SHOW, $weapon) === false) {
             $this->addFlash('danger', 'you cannot load a weapon that does not belong to you !');
 
-            return $this->redirectToRoute('user_profile');
+            if (isset($game)) {
+                return $this->redirectToRoute('game_show', ['id' => $weapon->getGame()->getId()]);
+            } else {
+                return $this->redirectToRoute('user_profile');
+            }
         }
 
         $load->load($weapon);
 
-        return $this->redirectToRoute('user_profile');
+        if (isset($game)) {
+            return $this->redirectToRoute('game_show', ['id' => $weapon->getGame()->getId()]);
+        } else {
+            return $this->redirectToRoute('user_profile');
+        }
     }
+
+    /**
+     * @Route("/reload/{id}", name="weapon_reload", methods={"GET"}, requirements={"id"="\d+"})
+     */
+    public function reload(Weapon $weapon, Reload $reload): Response
+    {
+
+        if ($this->isGranted(AppAccess::WEAPON_SHOW, $weapon) === false) {
+            $this->addFlash('danger', 'you cannot reload a weapon that does not belong to you !');
+
+            return $this->redirectToRoute('game_show', ['id' => $weapon->getGame()->getId()]);
+        }
+
+        $reload->reload($weapon);
+
+        return $this->redirectToRoute('game_show', ['id' => $weapon->getGame()->getId()]);
+
+    }
+
 }
