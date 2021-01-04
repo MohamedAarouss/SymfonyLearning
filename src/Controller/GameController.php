@@ -70,13 +70,21 @@ class GameController extends AbstractController
 
         $gameUsers = $gameUserRepository->findBy(['Game' => $game]);
 
-        $weapons = $weaponRepository->findBy(['Game' => $game]);
+        $weapons = $weaponRepository->findBy(['Game' => $game, 'GameUser' => null]);
 
         $gameUsersInfo = [];
+        $gameUserInfo = null;
 
         foreach($gameUsers as $gameU){
-            $gameUsersInfo[] = $loadGameUserInfo->load($gameU);
+            $gameUserInfoTmp = $loadGameUserInfo->load($gameU);
+            $gameUsersInfo[] = $gameUserInfoTmp;
+
+            if($gameUserInfoTmp->getGameUser()->getId() === $gameUser->getId()){
+                $gameUserInfo = $gameUserInfoTmp;
+            }
         }
+
+
 
         return $this->render(
             'game/show.html.twig',
@@ -84,7 +92,8 @@ class GameController extends AbstractController
                 'game' => $game,
                 'gameUser' => $gameUser,
                 'gameUsersInfo' => $gameUsersInfo,
-                'weapons' => $weapons
+                'weapons' => $weapons,
+                'gameUserInfo' => $gameUserInfo
             ]
         );
     }
