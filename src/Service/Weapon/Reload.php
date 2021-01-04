@@ -16,11 +16,10 @@ class Reload
     private $session;
     private $token;
 
-    public function __construct(EntityManagerInterface $em, SessionInterface $session, TokenStorageInterface $token)
+    public function __construct(EntityManagerInterface $em, SessionInterface $session)
     {
         $this->em = $em;
         $this->session = $session;
-        $this->token = $token;
     }
 
     public function reload(Weapon $weapon)
