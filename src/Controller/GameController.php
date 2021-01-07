@@ -84,7 +84,7 @@ class GameController extends AbstractController
             $gameUserInfoTmp = $loadGameUserInfo->load($gameU);
             $gameUsersInfo[] = $gameUserInfoTmp;
 
-            if ($gameUserInfoTmp->getGameUser()->getId() === $gameUser->getId()) {
+            if (isset($gameUser) && $gameUserInfoTmp->getGameUser()->getId() === $gameUser->getId()) {
                 $gameUserInfo = $gameUserInfoTmp;
             }
         }

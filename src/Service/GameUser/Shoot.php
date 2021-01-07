@@ -40,7 +40,7 @@ class Shoot
 
         if($weapon instanceof Weapon){
 
-            if($this->gameUserInfo->canIShoot($weapon) === true){
+            if($this->gameUserInfo->IsAmmoEmpty($weapon) === false){
 
                 $damage = $this->gameUserInfo->getReelDamage($weapon);
 
