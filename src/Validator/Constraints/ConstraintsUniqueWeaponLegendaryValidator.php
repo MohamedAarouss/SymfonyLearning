@@ -33,7 +33,7 @@ class ConstraintsUniqueWeaponLegendaryValidator extends ConstraintValidator
             if($exist instanceof Weapon){
                 if($weapon->getId() !== $exist->getId()){
                     $this->context->buildViolation($constraint->message)
-                        ->setParameter('{{ username }}', $exist->getUser()->getUsername())
+                        ->setParameter('{{ username }}', $exist->getGameUser()->getUser()->getUsername())
                         ->addViolation();
                 }
             }

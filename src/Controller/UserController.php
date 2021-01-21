@@ -3,11 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Event\AppEvent;
+use App\Event\UserEvent;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Repository\WeaponRepository;
 use App\Repository\WeaponTypeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,17 +47,28 @@ class UserController extends AbstractController
     /**
      * @Route("/new", name="user_new", methods={"GET","POST"})
      */
-    public function new(Request $request, UserPasswordEncoderInterface $encoder, $usernameDefault): Response
-    {
+    public function new(
+        Request $request,
+        UserPasswordEncoderInterface $encoder,
+        $usernameDefault,
+        UserEvent $event,
+        EventDispatcherInterface $dispatcher
+    ): Response {
         $user = new User();
-        $form = $this->createForm(UserType::class, $user, ['usernameDefault' => $usernameDefault ]);
+        $form = $this->createForm(UserType::class, $user, ['usernameDefault' => $usernameDefault]);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
+            /*
             $user->setPassword($encoder->encodePassword($user, $form->get('plainPassword')->getData()));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
+            */
+
+            $event->setPassword($form->get('plainPassword')->getData());
+            $event->setUser($user);
+            $dispatcher->dispatch($event, 'user.create');
 
             return $this->redirectToRoute('user_index');
         }
@@ -84,13 +98,18 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, User $user): Response
+    public function edit(Request $request, User $user, UserEvent $event, EventDispatcherInterface $dispatcher): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
+            /*
             $this->getDoctrine()->getManager()->flush();
+            */
+            $event->setPassword($form->get('changePassword')->getData());
+            $event->setUser($user);
+            $dispatcher->dispatch($event, AppEvent::UserEdit);
 
             return $this->redirectToRoute('user_index');
         }
@@ -109,7 +128,7 @@ class UserController extends AbstractController
      */
     public function delete(Request $request, User $user): Response
     {
-        if($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))){
+        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
@@ -121,8 +140,12 @@ class UserController extends AbstractController
     /**
      * @Route("/profile/", name="user_profile", methods={"GET"})
      */
-    public function profile(TokenStorageInterface $tokenStorage, AuthorizationCheckerInterface $authorizationChecker,
-        WeaponRepository $weaponRepository, WeaponTypeRepository $weaponTypeRepository){
+    public function profile(
+        TokenStorageInterface $tokenStorage,
+        AuthorizationCheckerInterface $authorizationChecker,
+        WeaponRepository $weaponRepository,
+        WeaponTypeRepository $weaponTypeRepository
+    ) {
 
         $weapons = $weaponRepository->findByUserOrderWeaponTypeDesc($tokenStorage->getToken()->getUser());
 
@@ -130,7 +153,7 @@ class UserController extends AbstractController
             'user/profile.html.twig',
             [
                 'weapons' => $weapons,
-                'weaponsType' => $weaponTypeRepository->findBy([], ['damage' => 'ASC'])
+                'weaponsType' => $weaponTypeRepository->findBy([], ['damage' => 'ASC']),
             ]
         );
     }

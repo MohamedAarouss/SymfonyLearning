@@ -1,0 +1,11 @@
+admin:
+    toto: "roro {name} roro"
+    roro: "toto {name} toto"
+choice:
+    trans: >-
+        {number, plural,
+            =1    {Je suis le numéro uno}
+            =2   {Je suis Deuxieme c'est pas mal}
+            =3   { Oui je suis sur le podium , yeahhhh}
+            other {Je suis apres quoi!}
+        }
