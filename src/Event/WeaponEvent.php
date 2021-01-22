@@ -30,6 +30,11 @@ class WeaponEvent extends Event{
     private $id_game;
 
     /**
+     * @var $scarcity boolean
+     */
+    private $scarcity = false;
+
+    /**
      * @return string
      */
     public function getName(): string
@@ -91,6 +96,22 @@ class WeaponEvent extends Event{
     public function setWeapon(Weapon $weapon): void
     {
         $this->weapon = $weapon;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getScarcity(): bool
+    {
+        return $this->scarcity;
+    }
+
+    /**
+     * @param bool $scarcity
+     */
+    public function setScarcity(bool $scarcity): void
+    {
+        $this->scarcity = $scarcity;
     }
 
 }

@@ -54,6 +54,7 @@ class WeaponAddCommand extends Command{
         $this->weaponEvent->setName($input->getArgument('name'));
         $this->weaponEvent->setIdGame($input->getArgument('game'));
         $this->weaponEvent->setIdWeaponType($input->getArgument('weaponType'));
+        $this->weaponEvent->setScarcity(true);
 
         $this->dispatcher->dispatch($this->weaponEvent, 'weapon.create');
 

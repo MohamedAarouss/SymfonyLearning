@@ -5,12 +5,15 @@ namespace App\Controller;
 use App\Entity\Game;
 use App\Entity\Weapon;
 use App\Entity\WeaponType as WeaponTypeEntity;
+use App\Event\AppEvent;
+use App\Event\WeaponEvent;
 use App\Form\WeaponType;
 use App\Repository\WeaponRepository;
 use App\Security\Voter\AppAccess;
 use App\Service\Weapon\Load;
 use App\Service\Weapon\Reload;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,16 +42,21 @@ class WeaponController extends AbstractController
     /**
      * @Route("/new/{game}", name="weapon_new", methods={"GET","POST"}, requirements={"game":"\d"})
      */
-    public function new(Request $request, Game $game = null): Response
-    {
+    public function new(
+        Request $request,
+        Game $game = null,
+        EventDispatcherInterface $dispatcher,
+        WeaponEvent $weaponEvent
+    ): Response {
         $weapon = new Weapon();
         $form = $this->createForm(WeaponType::class, $weapon, ['game' => $game]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($weapon);
-            $entityManager->flush();
+
+            $weaponEvent->setWeapon($weapon);
+            $dispatcher->dispatch($weaponEvent, 'weapon.create');
+
 
             if ($game !== null) {
 

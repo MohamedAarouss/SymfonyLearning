@@ -39,10 +39,13 @@ class WeaponListener
     }
 
     public function setName(WeaponEvent $event){
-        $event->setWeapon(new Weapon());
-        $event->getWeapon()->setName($event->getName());
-        $event->getWeapon()->setAmmunition(Weapon::MAX_AMMUNITION);
-        $event->getWeapon()->setInHand(false);
+
+        if(!$event->getWeapon() instanceof Weapon){
+            $event->setWeapon(new Weapon());
+            $event->getWeapon()->setName($event->getName());
+            $event->getWeapon()->setAmmunition(Weapon::MAX_AMMUNITION);
+            $event->getWeapon()->setInHand(false);
+        }
     }
 
     public function onWeaponCreate(WeaponEvent $event)
@@ -57,27 +60,35 @@ class WeaponListener
 
     public function setWeaponType(WeaponEvent $event){
 
-        $weaponType = $this->weaponTypeRepository->find($event->getIdWeaponType());
-        if(!$weaponType instanceof WeaponType){
-            $event->stopPropagation();
-            return;
+        if($event->getIdWeaponType() !== null){
+            $weaponType = $this->weaponTypeRepository->find($event->getIdWeaponType());
+            if(!$weaponType instanceof WeaponType){
+                $event->stopPropagation();
+                return;
+            }
+            $event->getWeapon()->setWeaponType($weaponType);
         }
-        $event->getWeapon()->setWeaponType($weaponType);
     }
 
     public function setGame(WeaponEvent $event){
 
-        $game = $this->gameRepository->find($event->getIdGame());
-        if(!$game instanceof Game){
-            $event->stopPropagation();
-            return;
+        if($event->getIdGame() !== null) {
+            $game = $this->gameRepository->find($event->getIdGame());
+            if (!$game instanceof Game) {
+                $event->stopPropagation();
+
+                return;
+            }
+            $event->getWeapon()->setGame($game);
         }
-        $event->getWeapon()->setGame($game);
     }
 
     public function randScarcity(WeaponEvent $event){
-        $scarcity = [1,2, 4, 8];
-        $event->getWeapon()->setScarcity($scarcity[\rand(0,3)]);
+
+        if($event->getScarcity() === true){
+            $scarcity = [1,2, 4, 8];
+            $event->getWeapon()->setScarcity($scarcity[\rand(0,3)]);
+        }
     }
 
 }
