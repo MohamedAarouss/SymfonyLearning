@@ -57,13 +57,14 @@ class UserSubscriber implements EventSubscriberInterface
 
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
     {
-        echo 'login ok ! : '.$event->getAuthenticationToken()->getUser()->getUsername();
+       echo 'login ok ! : '.$event->getAuthenticationToken()->getUser()->getUsername();
     }
 
     public function checkIfZimzim(UserEvent $event){
+
         if($event->getUser()->getUsername() === 'zimzim'){
             $event->stopPropagation();
-            $this->session->getFlashBag()->add('error', 'Utilisateur "'.$event->getUser()->getUsername().'"ne peux pas être modifié !');
+            $this->session->getFlashBag()->add('danger', 'Utilisateur "'.$event->getUser()->getUsername().'"ne peux pas être modifié !');
         }
     }
 
@@ -78,6 +79,5 @@ class UserSubscriber implements EventSubscriberInterface
         $event->getUser()->setPassword(
             $this->encoder->encodePassword($event->getUser(), $event->getPassword())
         );
-
     }
 }

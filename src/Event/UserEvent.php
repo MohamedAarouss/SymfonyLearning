@@ -42,7 +42,7 @@ class UserEvent extends Event{
     /**
      * @param string $password
      */
-    public function setPassword(string $password): void
+    public function setPassword(?string $password): void
     {
         $this->password = $password;
     }

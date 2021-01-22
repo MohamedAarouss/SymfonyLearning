@@ -74,7 +74,7 @@ class UserType extends AbstractType
         if($entity->getUsername() === $this->tokenStorage->getToken()->getUser()->getUsername(
             )) //recupere l'utilisateur et check si c'est celui du formulaire
         {
-            $form->remove('username');
+            //$form->remove('username');
         }
 
         if($entity->getId() === null)//si je suis en création
