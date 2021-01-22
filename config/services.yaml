@@ -38,3 +38,11 @@ services:
             - { name: kernel.event_listener, event: user.create, priority: 128 }
             - { name: kernel.event_listener, event: user.create, method: 'encryptPassword', priority: 256 }
             - { name: kernel.event_listener, event: user.create, method: 'addCallBack', priority: 0 }
+
+    App\EventListener\WeaponListener:
+        tags:
+            - { name: kernel.event_listener, event: weapon.create, priority: 0 }
+            - { name: kernel.event_listener, event: weapon.create, method: 'randScarcity', priority: 128 }
+            - { name: kernel.event_listener, event: weapon.create, method: 'setGame', priority: 256 }
+            - { name: kernel.event_listener, event: weapon.create, method: 'setWeaponType', priority: 512 }
+            - { name: kernel.event_listener, event: weapon.create, method: 'setName', priority: 1024 }
