@@ -6,39 +6,27 @@
 
     <div class="row">
         <div class="col-12">
-            <h1 class="text-center">Les test unitaires</h1>
-        </div>
-        <div class="col-12">
-            <h3>Ou je trouve çà : <a href="https://symfony.com/doc/current/testing.html" target="_blank">Ici</a>
-            </h3>
+            <h1>Les events => listener - dispatcher</h1>
+            <h2>Qu'est ce que c'est ?</h2>
+            <h3>Différence :</h3>
+            <hr>
+            <h5>Les listeners peuvent être activé/désactivé dans la config. ( donc possible d'étre surchargé ) </h5>
+            <hr>
+            <h5>Les subscribers ont toute la logique dans leur classe, ils sont plus flexible car réutilisable</h5>
+            <h6>Désavantages des subscribers, c'est qui sont tous chargés en cache alors que le listener est chargé uniquement lors de son appel.</h6>
+            <h2>Doc officiel : <a href="https://symfony.com/doc/current/event_dispatcher.html" target="_blank">Doc</a></h2>
+
         </div>
         <hr>
         <div class="col-12">
-            <h2 class="">La règle :<br/></h2>
-            <h3 class="">- Faire du code de qualité</h3>
-            <h3 class="">- Faire du code de qualité</h3>
-            <h3 class="">- Faire du code de qualité</h3>
-            <h3 class="">Et surtout pourvoir travailler tous ensemble sur un projet dans les meilleures conditions :)</h3>
+            <h2>Listener</h2>
+            <h2>namespace = App\EventListener</h2>
+            <h2>Exemple : User Create</h2>
         </div>
         <div class="col-12">
-            <h3>Ou ca se passe dans un projet symfony.</h3>
-            <h4>Dans le dossier tests : --<br/>
-                - La classe suffixer par Test <br/>
-                - les méthodes préfixer par test</h4>
-            <code>
-                composer require --dev symfony/phpunit-bridge<br/>
-                composer require --dev symfony/browser-kit symfony/css-selector<br/>
-                ./bin/phpunit
-            </code>
-            <h4>
-                Pour lancer les test : ./bin/phpunit ( Plus le dossier / class / ... )
-            </h4>
-        </div>
-
-        <div class="col-12">
-            <h4>
-                Mon premier vrai test
-            </h4>
+            <h2>Subscriber</h2>
+            <h2>namespace = App\EventSubscriber</h2>
+            <h2>Exemple UserEdit</h2>
         </div>
 
         <div class="col-12">

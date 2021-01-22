@@ -23,47 +23,21 @@
 
         <hr><hr>
 
-        <h4 class="">
-            Tp du jour &#128584; sur la page Game:show <a
-                    href="{{ path('game_show', {'id':1}) }}">ICI</a>&#128520;<br/>
-        </h4>
-        <hr>
-        <hr>
-        <h5>0: Réaliser tous les test possible sur : App\Service\Calculate</h5>
-        <hr><h4>Correction</h4><hr>
-        <h5>1: Créer une règle de validation pour qu'un User ne puisse pas être ajouté 2 fois dans la même game et l'appliquer</h5>
-        <h5>2: Ajouter un bouton pour "rejoindre cette partie " dans la page du tp du jour qui redirige vers sur GameUser:new et qui automatiquement set
-            le User et la Game en cours.<br/>
-            Sur cette page, seul le bouton "m'inscrire à nom de la game " doit être affiché.<br />
-            Apres le click redirection sur la page du tp du jour Game:Show avec un message toast/callback.
-        </h5>
-        <h5>3: Si l'utilisateur est déjà dans la game ne pas afficher le bouton du dessus mais afficher la liste des
-            utilisateurs ( nom et health ) avec l'arme qu'ils ont en main ( nom, weapontype:name,  damage = damage * scarcity )</h5>
-        <h5><i>Exemple : Zimzim - 500 PV : Sniper Boum boum - Sniper - 2000 Dégats </i></h5>
-        <h5>4: Au dessus de cette liste d'utilisateur lister toutes les armes disponibles dans la game - ( n'appartenant à personne )</h5>
-        <h5><i>Nom d'arme - type d'arme - ammunition</i></h5>
-        <hr><h4>Correction</h4><hr>
-        <h5>5: Créer un champ WeaponTypeType qui est un radio bouton trié par name DESC et l'utiliser dans le formulaire WeaponType<a target="_blank"
-                                                                                                 href="https://symfony.com/doc/current/reference/forms/types/entity.html#ref-form-entity-query-builder">&#x1F63B;
-                un peu d'aide </a></h5>
-        <h5>6: Ajouter un bouton dans le menu pour créer une arme.<br /> je clique dessus j'arrive sur Weapon:New et qui utilise WeaponTypeType en presetetant
-            directement la game,le gameuser, les munitions au max et le nom sera : nom de la game - nom d'utilisateur - type d'arme - inHand à false<br />
-            Je dois voir donc seulement le type d'arme et la raretté et le bouton "ajouter".<br />
-            Apres le click redirection sur la page du tp du jour Game:Show avec un message toast/callback.<br />
-            N'afficher ce bouton que dans la page game:show
-        </h5>
-        <h5>7: En tans que Role ADMIN, ajouter un bouton "Update" pour pouvoir modifier les armes disponibles <span class="badge badge-success">( 4 )</span><br />
-            J'arrive sur la page weapon:edit avec tous les champs disponible sauf le champ game ( attention seul les GAMEUSER de la game en cours doivent apparaitre !) dans le champs gameuser</h5>
-        <hr><h4>Correction</h4><hr>
-        <h5>8: Lister les armes de l'utilisateur connecté - juste en dessous du menu</h5>
-        <h5>9: Mettre en surbrillance l'arme en main et grisé les armes déchargés ammunition = 0</h5>
-        <h5>10: Ajouter un bouton "recharger" a coter des armes dechargé et créer la fonction pour recharger une l'arme</h5>
-        <hr><h4>Correction</h4><hr>
-        <h5>11: Tester la fonction ci dessus<span class="badge badge-success">( 10 )</span></h5>
-        <h5>12: A coter de chaque User de la game, ajouter un bouton pour lui tirer dessus et créer la méthode userGame:shoot ( retirer des point de vie à l'user et retirer une munition de l'arme)</h5>
-        <hr><h4>Correction</h4><hr>
-        <h5>13: Tester la fonction userGame:shoot</h5>
-        <hr><h4>Correction</h4><hr>
+        <h6>Tp du jours sur la page <a href="{{ path('game_show', {'id':1}) }}">ICI</a></h6>
+        <h6>1 - Créer une commande qui créer une arme vierge en utilisant un listener</h6>
+        <h6>2 - Modifier le controller arme  pour utiliser le même listener</h6>
+        <h6>3 - Modifier la fonction load pour utiliser les subscribers</h6>
+        <h6>4 - Modifier la fonction load pour quelle puisse retirer l'arme en main. inHand = false</h6>
+        <h6>5 - Implémenter les traduction ( fr / en ) sur tous les messages de feedback de la fonction load</h6>
+        <hr><h5>Correction</h5><hr>
+        <h6>6.1 - Loguer le rechargement d'un joueur ( avec subscribers ou listener )</h6>
+        <h6>6.2 - loguer le tir sur un joueur ( avec subscribers ou listener )</h6>
+        <hr><h5>Correction</h5><hr>
+        <h6>7 - Modifier la fonction shoot:user en utilisant le principe des subscribers</h6>
+        <h6>7.1 - Un joueur ne peux pas avoir moins de 0 PV  </h6>
+        <h6>7.2 - Supprimer le joueur de la liste si il est mort = Opv </h6>
+        <h6>7.3 - Ajouter une chance de looper le tir 70 % de chance de looper le tir</h6>
+        <hr><h5>Correction</h5><hr>
 
 
     </div>
