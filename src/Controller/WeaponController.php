@@ -56,6 +56,7 @@ class WeaponController extends AbstractController
 
             $weaponEvent->setWeapon($weapon);
             $dispatcher->dispatch($weaponEvent, 'weapon.create');
+            //$dispatcher->dispatch($weaponEvent, 'weapon.create_controller'); Ou bien
 
 
             if ($game !== null) {
@@ -147,9 +148,10 @@ class WeaponController extends AbstractController
 
 
     /**
-     * @Route("/load/{id}/{game}", name="weapon_load", methods={"GET"}, requirements={"id"="\d+"})
+     * @Route("/load/{id}/{load}/{game}", name="weapon_load", methods={"GET"}, requirements={"id"="\d+", "load"="\d"})
      */
-    public function load(Weapon $weapon, Load $load, $game = null): Response
+    public function load(Weapon $weapon, $load = 1, $game = null, EventDispatcherInterface $dispatcher,
+        WeaponEvent $weaponEvent): Response
     {
         //$this->addFlash('success', 'Crick Crick');
 
@@ -163,7 +165,9 @@ class WeaponController extends AbstractController
             }
         }
 
-        $load->load($weapon);
+        $weaponEvent->setLoad(boolval($load));
+        $weaponEvent->setWeapon($weapon);
+        $dispatcher->dispatch($weaponEvent, AppEvent::WeaponLoad);
 
         if (isset($game)) {
             return $this->redirectToRoute('game_show', ['id' => $weapon->getGame()->getId()]);

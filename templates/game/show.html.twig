@@ -22,6 +22,7 @@
                             {% if gameUserInfo.weapon.ammunition is same as(0) %}
                                 <a class="btn btn-primary" href="{{ path('weapon_reload', {'id': gameUserInfo.weapon.id}) }}">Reload</a>
                             {% endif %}
+                            <a class="btn btn-success" href="{{ path('weapon_load', {'id': gameUserInfo.weapon.id, 'load': 0, 'game': 'game'}) }}">Unload me</a>
                         </h5>
                     </div>
                 {% endif %}
@@ -29,7 +30,7 @@
                     <div {% if weapon.ammunition is same as(0) %}class="alert alert-secondary"{% endif %}>
                         <h5 class="text-center ">
                             {{ macros.detailWeapon(weapon, gameUserInfo) }}
-                            <a class="btn btn-success" href="{{ path('weapon_load', {'id': weapon.id, 'game': 'game'}) }}">Load me</a>
+                            <a class="btn btn-success" href="{{ path('weapon_load', {'id': weapon.id, 'load': 1, 'game': 'game'}) }}">Load me</a>
                             {% if weapon.ammunition is same as(0) %}
                                 <a class="btn btn-primary"  href="{{ path('weapon_reload', {'id': weapon.id}) }}">Reload</a>
                             {% endif %}

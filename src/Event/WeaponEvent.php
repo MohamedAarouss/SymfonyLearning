@@ -35,9 +35,14 @@ class WeaponEvent extends Event{
     private $scarcity = false;
 
     /**
+     * @var $load boolean
+     */
+    private $load;
+
+    /**
      * @return string
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -45,7 +50,7 @@ class WeaponEvent extends Event{
     /**
      * @param string $name
      */
-    public function setName(string $name): void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
@@ -53,7 +58,7 @@ class WeaponEvent extends Event{
     /**
      * @return int
      */
-    public function getIdWeaponType(): int
+    public function getIdWeaponType(): ?int
     {
         return $this->id_weapon_type;
     }
@@ -61,7 +66,7 @@ class WeaponEvent extends Event{
     /**
      * @param int $id_weapon_type
      */
-    public function setIdWeaponType(int $id_weapon_type): void
+    public function setIdWeaponType(?int $id_weapon_type): void
     {
         $this->id_weapon_type = $id_weapon_type;
     }
@@ -69,7 +74,7 @@ class WeaponEvent extends Event{
     /**
      * @return int
      */
-    public function getIdGame(): int
+    public function getIdGame(): ?int
     {
         return $this->id_game;
     }
@@ -77,7 +82,7 @@ class WeaponEvent extends Event{
     /**
      * @param int $id_game
      */
-    public function setIdGame(int $id_game): void
+    public function setIdGame(?int $id_game): void
     {
         $this->id_game = $id_game;
     }
@@ -85,7 +90,7 @@ class WeaponEvent extends Event{
     /**
      * @return Weapon
      */
-    public function getWeapon(): Weapon
+    public function getWeapon(): ?Weapon
     {
         return $this->weapon;
     }
@@ -93,7 +98,7 @@ class WeaponEvent extends Event{
     /**
      * @param Weapon $weapon
      */
-    public function setWeapon(Weapon $weapon): void
+    public function setWeapon(?Weapon $weapon): void
     {
         $this->weapon = $weapon;
     }
@@ -113,5 +118,22 @@ class WeaponEvent extends Event{
     {
         $this->scarcity = $scarcity;
     }
+
+    /**
+     * @return bool
+     */
+    public function getLoad(): bool
+    {
+        return $this->load;
+    }
+
+    /**
+     * @param bool $load
+     */
+    public function setLoad(bool $load): void
+    {
+        $this->load = $load;
+    }
+
 
 }

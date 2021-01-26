@@ -1,3 +1,6 @@
 admin:
     toto: "roro {name} roro always in english"
     roro: "toto {name} toto  always in english"
+weapon:
+    load: "{weapon} is loaded beware  !"
+    unload: "{weapon} is unloaded .... opsss i did it again ^^"
