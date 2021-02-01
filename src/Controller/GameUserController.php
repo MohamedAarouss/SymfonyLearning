@@ -4,10 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Game;
 use App\Entity\GameUser;
+use App\Event\AppEvent;
+use App\Event\GameUserEvent;
+use App\Event\WeaponEvent;
 use App\Form\GameUserType;
 use App\Repository\GameUserRepository;
 use App\Service\GameUser\Shoot;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -105,9 +109,16 @@ class GameUserController extends AbstractController
     /**
      * @Route("/shoot/{id}", name="game_user_shoot", methods={"GET"})
      */
-    public function shoot(GameUser $gameUser, Shoot $shoot){
+    public function shoot(GameUser $gameUser, Shoot $shoot, EventDispatcherInterface $dispatcher,
+        GameUserEvent $gameUserEvent){
 
         //$this->addFlash('success', "Oh My god, ". $gameUser->getUser()->getUsername() ." was shhoted !");
+
+
+        $gameUserEvent->setAction('shoot');
+        $gameUserEvent->setGameUser($gameUser);
+        $dispatcher->dispatch($gameUserEvent, AppEvent::GameUserShoot);
+
 
         $shoot->shootGameUser($gameUser);
 

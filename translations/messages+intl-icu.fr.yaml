@@ -4,6 +4,7 @@ admin:
 weapon:
     load: "{weapon} est chargé attention à vos fesses !"
     unload: "{weapon} est déchargé, j'espere que tu sais ce que tu fais :)"
+    reload: "{weapon} est rechargé, Gaffe à vos fesses"
 choice:
     trans: >-
         {number, plural,

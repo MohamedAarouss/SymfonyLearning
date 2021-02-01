@@ -2,12 +2,23 @@
 
 namespace App\Event;
 
-use App\Entity\User;
+use App\Entity\ActionUser;
+use App\Entity\Game;
+use App\Entity\GameUser;
 use App\Entity\Weapon;
 use Symfony\Contracts\EventDispatcher\Event;
 
-class WeaponEvent extends Event{
+class WeaponEvent extends Event implements iArmableLoggable {
 
+    /**
+     * @var $action string
+     */
+    private $action;
+
+    /**
+     * @var $actionUser ActionUser
+     */
+    private $actionUser;
 
     /**
      * @var $weapon Weapon
@@ -38,6 +49,21 @@ class WeaponEvent extends Event{
      * @var $load boolean
      */
     private $load;
+
+    /**
+     * @var $gameUser GameUser
+     */
+    private $gameUser;
+
+    public function setGameUser(GameUser $gameUser): void
+    {
+        $this->gameUser = $gameUser;
+    }
+
+    public function getGameUser(): ?GameUser
+    {
+        return $this->gameUser;
+    }
 
     /**
      * @return string
@@ -135,5 +161,22 @@ class WeaponEvent extends Event{
         $this->load = $load;
     }
 
+    public function setActionUser(?ActionUser $actionUser): void{
+        $this->actionUser = $actionUser;
+    }
+
+    public function getActionUser(): ?ActionUser
+    {
+        return $this->actionUser;
+    }
+
+    public function getAction(): ?string
+    {
+        return $this->action;
+    }
+
+    public function setAction(?string $action){
+        return $this->action = $action;
+    }
 
 }

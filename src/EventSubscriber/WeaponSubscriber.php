@@ -5,6 +5,7 @@ namespace App\EventSubscriber;
 
 use App\Entity\Weapon;
 use App\Event\AppEvent;
+use App\Event\iArmableLoggable;
 use App\Event\UserEvent;
 use App\Event\WeaponEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -27,7 +28,7 @@ class WeaponSubscriber implements EventSubscriberInterface
         TokenStorageInterface $tokenStorage,
         SessionInterface $session,
         TranslatorInterface $translator
-    ){
+    ) {
         $this->entityManager = $entityManager;
         $this->token = $tokenStorage->getToken();
         $this->flashBag = $session->getFlashBag();
@@ -42,7 +43,10 @@ class WeaponSubscriber implements EventSubscriberInterface
                 ['loadUnload', 128],
                 ['persist', 0],
                 ['addFlashBag', -128],
-            ]
+            ],
+            AppEvent::WeaponReLoad => [
+                ['reload', 128],
+            ],
         ];
     }
 
@@ -50,9 +54,12 @@ class WeaponSubscriber implements EventSubscriberInterface
     {
         $weapons = $this->entityManager->getRepository(Weapon::class)->findWeaponByUser($this->token->getUser());
 
-        array_map(function ($obj) {
-            $obj->setInHand(false);
-        }, $weapons);
+        array_map(
+            function ($obj) {
+                $obj->setInHand(false);
+            },
+            $weapons
+        );
     }
 
     public function loadUnload(WeaponEvent $event)
@@ -60,7 +67,7 @@ class WeaponSubscriber implements EventSubscriberInterface
         $event->getWeapon()->setInHand($event->getLoad());
     }
 
-    public function persist(WeaponEvent $event)
+    public function persist(iArmableLoggable $event)
     {
         $this->entityManager->persist($event->getWeapon());
         $this->entityManager->flush();
@@ -68,8 +75,21 @@ class WeaponSubscriber implements EventSubscriberInterface
 
     public function addFlashBag(WeaponEvent $event)
     {
-        $this->flashBag->add('success', $this->translator->trans('weapon.load', ['%weapon%' => $event->getWeapon()->getName()]));
+        $this->flashBag->add(
+            'success',
+            $this->translator->trans('weapon.load', ['%weapon%' => $event->getWeapon()->getName()])
+        );
     }
 
+    public function reload(iArmableLoggable $event)
+    {
+
+        $event->getWeapon()->setAmmunition(Weapon::MAX_AMMUNITION);
+        $this->flashBag->add(
+            'success',
+            $this->translator->trans('weapon.reload', ['%weapon%' => $event->getWeapon()->getName()])
+        );
+
+    }
 
 }

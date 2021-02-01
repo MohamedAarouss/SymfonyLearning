@@ -18,7 +18,6 @@ class ActionUser
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\GameUser")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $GameUser;
 

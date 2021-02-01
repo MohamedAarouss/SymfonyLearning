@@ -9,4 +9,8 @@ final class AppEvent
     const UserReset = "app.user.reset";
 
     const WeaponLoad = "app.weapon.load";
+
+    const WeaponReLoad = "app.weapon.reload";
+
+    const GameUserShoot = "app.gameuser.shoot";
 }

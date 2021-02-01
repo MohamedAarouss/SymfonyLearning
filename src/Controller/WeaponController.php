@@ -165,6 +165,7 @@ class WeaponController extends AbstractController
             }
         }
 
+        $weaponEvent->setAction('load');
         $weaponEvent->setLoad(boolval($load));
         $weaponEvent->setWeapon($weapon);
         $dispatcher->dispatch($weaponEvent, AppEvent::WeaponLoad);
@@ -179,7 +180,8 @@ class WeaponController extends AbstractController
     /**
      * @Route("/reload/{id}", name="weapon_reload", methods={"GET"}, requirements={"id"="\d+"})
      */
-    public function reload(Weapon $weapon, Reload $reload): Response
+    public function reload(Weapon $weapon, EventDispatcherInterface $dispatcher,
+        WeaponEvent $weaponEvent): Response
     {
 
         if ($this->isGranted(AppAccess::WEAPON_SHOW, $weapon) === false) {
@@ -188,7 +190,9 @@ class WeaponController extends AbstractController
             return $this->redirectToRoute('game_show', ['id' => $weapon->getGame()->getId()]);
         }
 
-        $reload->reload($weapon);
+        $weaponEvent->setAction('reload');
+        $weaponEvent->setWeapon($weapon);
+        $dispatcher->dispatch($weaponEvent, AppEvent::WeaponReLoad);
 
         return $this->redirectToRoute('game_show', ['id' => $weapon->getGame()->getId()]);
 
