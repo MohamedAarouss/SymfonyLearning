@@ -51,6 +51,13 @@
                 </li>
             {% endif %}
 
+            {% block submenu %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('dashboard') }}">dashboard</a>
+                </li>
+
+            {% endblock submenu %}
+
         </ul>
     </div>
 </nav>

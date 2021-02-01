@@ -19,6 +19,11 @@ class RolesType extends AbstractType
             ],
             'multiple' => true,
             'expanded' => true,
+            'allow_add' => null,
+            'allow_delete' => null,
+            'delete_empty' => null,
+            'entry_options' => null,
+            'entry_type' => null,
         ]);
     }
     public function getParent(){

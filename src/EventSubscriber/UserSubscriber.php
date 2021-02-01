@@ -3,8 +3,10 @@
 namespace App\EventSubscriber;
 
 
+use App\Entity\User;
 use App\Event\AppEvent;
 use App\Event\UserEvent;
+use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -47,6 +49,7 @@ class UserSubscriber implements EventSubscriberInterface
             //celui le plus haut repond avant le plus bas
             AuthenticationEvents::AUTHENTICATION_FAILURE => 'onAuthenticationFailure',
             SecurityEvents::INTERACTIVE_LOGIN => 'onSecurityInteractiveLogin',
+            BeforeEntityPersistedEvent::class => ['encodePassword'],
         ];
     }
 
@@ -57,7 +60,7 @@ class UserSubscriber implements EventSubscriberInterface
 
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
     {
-       echo 'login ok ! : '.$event->getAuthenticationToken()->getUser()->getUsername();
+        echo 'login ok ! : '.$event->getAuthenticationToken()->getUser()->getUsername();
     }
 
     public function checkIfZimzim(UserEvent $event){
@@ -79,5 +82,20 @@ class UserSubscriber implements EventSubscriberInterface
         $event->getUser()->setPassword(
             $this->encoder->encodePassword($event->getUser(), $event->getPassword())
         );
+    }
+
+    public function encodePassword(BeforeEntityPersistedEvent $event)
+    {
+        $entity = $event->getEntityInstance();
+
+        if (!($entity instanceof User)) {
+            return;
+        }
+
+        $entity->setPassword(
+            $this->encoder->encodePassword($entity, $entity->getPassword())
+        );
+
+        $entity->setCreatedAt(new \DateTime('now'));
     }
 }
