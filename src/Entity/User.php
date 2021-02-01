@@ -47,6 +47,11 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $content;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -153,5 +158,17 @@ class User implements UserInterface
     public function __toString()
     {
         return $this->getUsername();
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(?string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
     }
 }

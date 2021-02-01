@@ -32,4 +32,12 @@ class HomeController extends AbstractController
         return $this->render('home/index_logued.html.twig');
     }
 
+    /**
+     * @Route("/bundle", name="home_bundle" )
+     */
+    public function bundle()
+    {
+        return $this->render('home/bundle.html.twig');
+    }
+
 }

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home {% endblock title %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-12">
+            <h6>Les bundles ? <a href="https://symfony.com/doc/bundles/">Ici</a></h6>
+            <h3>Easy Admin</h3>
+            <code>php composer easycorp/easyadmin-bundle</code>
+            <h6>lien : <a href="https://symfony.com/doc/current/bundles/EasyAdminBundle/index.html">Ici</a></h6>
+            <h3>Exemple : Avec User</h3>
+            <h6>1 : Personaliser le formulaire User:new pour que seul les champs username,password et content sont accesible.</h6>
+            <h6>2 : Personaliser le formulaire User:edit pour que l'on puisse modifier les roles et le content.</h6>
+            <h6>3 : Ajouter une configuration pour l'entité Weapon</h6>
+            <h6>4 : Ajouter un bouton retour dans le menu</h6>
+            <h6>5 : Personnaliser le formulaire de User:new pour qu'il utilise un event listener pour encrypter le mot de passe</h6>
+            <hr>
+            <h6>Correction</h6>
+            <hr>
+            <h6>5 : Installer Api Plateform et exposer l'entité game.</h6>
+            <h6>6 : Installer FOSCKEditorBundle et l'utiliser sur le champ content de User</h6>
+            <hr>
+            <h6>Correction</h6>
+            <hr>
+            <h6>7 : création d'une extension twig. Un filter qui permet de transformer un entier en chaine de caractere ( exemple de 0 à 10 = petit ; 10 à 20 = moyen ; au dessus de 20 grand )</h6>
+            <h6>Aide <a href="https://symfony.com/doc/current/templating/twig_extension.html">ici</a></h6>
+            <br>
+            <h6>8 : personnaliser le champs weapon:scarcity qui lorsque l'on change la valeur change la couleur du block comme la macro</h6>
+            <h3>Aide <a href="https://symfony.com/doc/current/form/create_custom_field_type.html">ici</a></h3>
+            <br />
+            <br />
+            <br />
+            <h3>&nbsp;</h3>
+        </div>
+    </div>
+
+{% endblock body %}
