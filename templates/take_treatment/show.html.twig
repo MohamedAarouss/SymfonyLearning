@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TakeTreatment{% endblock %}
+
+{% block body %}
+    <h1>TakeTreatment</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ take_treatment.id }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ take_treatment.createdAt ? take_treatment.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>{{ take_treatment.content }}</td>
+            </tr>
+            <tr>
+                <th>Fail</th>
+                <td>{{ take_treatment.fail ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('take_treatment_index') }}">back to list</a>
+
+    <a href="{{ path('take_treatment_edit', {'id': take_treatment.id}) }}">edit</a>
+
+    {{ include('take_treatment/_delete_form.html.twig') }}
+{% endblock %}

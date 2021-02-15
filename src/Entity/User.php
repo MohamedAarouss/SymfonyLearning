@@ -15,6 +15,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class User implements UserInterface
 {
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
 
     /**
      * @ORM\Id()
@@ -40,7 +44,6 @@ class User implements UserInterface
      */
     private $createdAt;
 
-
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
@@ -48,9 +51,11 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Hospital")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $content;
+    private $Hospital;
+
 
     public function getId(): ?int
     {
@@ -133,11 +138,14 @@ class User implements UserInterface
     }
 
     public function removeRole(string $role): self{
+
         if(in_array($role, $this->roles)){
-            unset($this->roles[array_keys($this->roles, $role)[0]]);
+            $key = array_keys($this->roles, $role);
+            unset($this->roles[$key[0]]);
         }
         return $this;
     }
+
 
     /**
      * @return mixed
@@ -160,14 +168,14 @@ class User implements UserInterface
         return $this->getUsername();
     }
 
-    public function getContent(): ?string
+    public function getHospital(): ?Hospital
     {
-        return $this->content;
+        return $this->Hospital;
     }
 
-    public function setContent(?string $content): self
+    public function setHospital(?Hospital $Hospital): self
     {
-        $this->content = $content;
+        $this->Hospital = $Hospital;
 
         return $this;
     }

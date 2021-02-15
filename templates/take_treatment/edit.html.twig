@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit TakeTreatment{% endblock %}
+
+{% block body %}
+    <h1>Edit TakeTreatment</h1>
+
+    {{ include('take_treatment/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('take_treatment_index') }}">back to list</a>
+
+    {{ include('take_treatment/_delete_form.html.twig') }}
+{% endblock %}

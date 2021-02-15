@@ -2,12 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\Game;
-use App\Entity\Player;
-use App\Repository\GameRepository;
-use App\Repository\GameUserRepository;
+
+use App\Entity\StatusDisease;
+use App\Repository\DiseaseRepository;
+use App\Repository\StatusDiseaseRepository;
+use App\Repository\TreatmentRepository;
 use App\Repository\UserRepository;
-use App\Repository\WeaponRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -17,27 +17,25 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home_index" )
      */
-    public function index()
+    public function index(
+        UserRepository $userRepository,
+        StatusDiseaseRepository $statusDiseaseRepository,
+        DiseaseRepository $diseaseRepository,
+        TreatmentRepository $treatmentRepository
+    )
     {
-        return $this->render('home/index.html.twig');
-    }
+        $users = $userRepository->findBy([]);
+        $statusDisease = $statusDiseaseRepository->findBy([]);
+        $diseases = $diseaseRepository->findBy([]);
+        $treatments = $treatmentRepository->findBy([]);
 
-    /**
-     * @Route("/logued/", name="home_logued_index" )
-     *
-     * @IsGranted("ROLE_USER")
-     */
-    public function indexLogued(WeaponRepository $weaponRepository)
-    {
-        return $this->render('home/index_logued.html.twig');
+        return $this->render('home/index.html.twig',
+            [
+                'users' => $users,
+                'statusDiseases' => $statusDisease,
+                'diseases' => $diseases,
+                'treatments' => $treatments
+            ]
+        );
     }
-
-    /**
-     * @Route("/bundle", name="home_bundle" )
-     */
-    public function bundle()
-    {
-        return $this->render('home/bundle.html.twig');
-    }
-
 }

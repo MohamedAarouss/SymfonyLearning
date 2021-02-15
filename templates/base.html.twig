@@ -2,30 +2,33 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-        <link rel="manifest" href="/site.webmanifest">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
     <body>
-    <div class="container">
-
         {% block menu %}
-            {% include 'menu.html.twig' %}
-        {% endblock %}
-
-        {% include 'alert.html.twig' %}
-
+            {% include 'menu.html.twig'%}
+        {% endblock menu %}
+        {% block flashmessage %}
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+            {% for label, messages in app.flashes(['warning', 'error', 'success']) %}
+                {% for message in messages %}
+                    <h3 class="text-center alert-{{ label }}">
+                        {{ message }}
+                    </h3>
+                {% endfor %}
+            {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endblock flashmessage %}
         {% block body %}{% endblock %}
-
         {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
+        {{ encore_entry_script_tags('app') }}
         {% endblock %}
-    </div>
     </body>
 </html>

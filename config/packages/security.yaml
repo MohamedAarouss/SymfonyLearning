@@ -3,12 +3,6 @@ security:
         App\Entity\User:
             algorithm: auto
 
-
-    role_hierarchy:
-        ROLE_USER:   ROLE_USER
-        ROLE_ADMIN: [ROLE_USER, ROLE_ADMIN]
-        ROLE_SUPER_ADMIN: [ROLE_SUPER_ADMIN, ROLE_ADMIN, ROLE_USER]
-
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         # used to reload user from session & other features (e.g. switch_user)
@@ -21,12 +15,10 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: true
-            lazy: true
-            provider: app_user_provider
+            anonymous: lazy
             guard:
                 authenticators:
-                    - App\Security\AppLoginAuthenticator
+                    - App\Security\UserAuthenticator
             logout:
                 path: app_logout
                 # where to redirect after logout

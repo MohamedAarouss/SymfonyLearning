@@ -4,3 +4,7 @@ app:
     home:
         index:
             title: "Bonjour"
+
+weapon:
+    load: "Charger"
+    unload: "Décharger"

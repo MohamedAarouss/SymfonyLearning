@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TakeTreatment index{% endblock %}
+
+{% block body %}
+    <h1>TakeTreatment index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>CreatedAt</th>
+                <th>Content</th>
+                <th>Fail</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for take_treatment in take_treatments %}
+            <tr>
+                <td>{{ take_treatment.id }}</td>
+                <td>{{ take_treatment.createdAt ? take_treatment.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ take_treatment.content }}</td>
+                <td>{{ take_treatment.fail ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('take_treatment_show', {'id': take_treatment.id}) }}">show</a>
+                    <a href="{{ path('take_treatment_edit', {'id': take_treatment.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('take_treatment_new') }}">Create new</a>
+{% endblock %}
