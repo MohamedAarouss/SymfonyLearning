@@ -24,7 +24,7 @@ class HomeController extends AbstractController
         TreatmentRepository $treatmentRepository
     )
     {
-        $users = $userRepository->findBy([]);
+        $users = $userRepository->findBy([], ['username' => 'ASC']);
         $statusDisease = $statusDiseaseRepository->findBy([]);
         $diseases = $diseaseRepository->findBy([]);
         $treatments = $treatmentRepository->findBy([]);
