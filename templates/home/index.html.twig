@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% import "macros.html.twig" as macros %}
 
 {% block title %}Home {% endblock title %}
 
@@ -49,7 +50,7 @@
                 <h4>Diseases <span class="helper">(3)</span></h4>
                 <ul class="list-group list-group-horizontal">
                     {% for disease in diseases %}
-                        <li class="list-group-item">{{ disease.name }} - 1/{{ disease.risk }}</li>
+                        <li class="list-group-item">{{ disease.name }} - {{ macros.disease(disease.risk) }}</li>
                     {% endfor %}
                 </ul>
             </div>

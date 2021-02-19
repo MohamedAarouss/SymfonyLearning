@@ -1,0 +1,16 @@
+{% macro disease(risk) %}
+    <span style="background-color: black;
+        {% if risk is same as (10000) %}
+            color: green"> 1/10000
+        {% endif %}
+        {% if risk is same as (1000) %}
+            color: yellow"> 1/1000
+        {% endif %}
+        {% if risk is same as (50) %}
+            color: blue"> 1/50
+        {% endif %}
+        {% if risk is same as (20) %}
+            color: red"> 1/20
+        {% endif %}
+    </span>
+{% endmacro %}
