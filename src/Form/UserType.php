@@ -18,7 +18,7 @@ class UserType extends AbstractType
     {
         $builder
             ->add('username')
-            ->add('roles', RolesType::class)
+            ->add('roles')
             ->add('createdAt')
             ->add('plainPassword', PasswordType::class, ['mapped' => false, 'required' => false] )
         ;

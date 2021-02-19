@@ -151,6 +151,7 @@ class DataFixtures extends Fixture
         $treat5->setName("Cachet de la mort qui tue");
         $treat5->setDosage(1);
         $treat5->addHospital($arras);
+        $treat5->addHospital($lille);
         $treat5->setDisease($meningite);
         $manager->persist($treat5);
 
@@ -159,6 +160,20 @@ class DataFixtures extends Fixture
         $status->setCreatedAt(new \DateTime('now'));
         $status->setBeaten(false);
         $status->setDisease($cancer);
+        $status->setUser($jp);
+        $manager->persist($status);
+
+        $status = new StatusDisease();
+        $status->setCreatedAt(new \DateTime('now'));
+        $status->setBeaten(false);
+        $status->setDisease($covid);
+        $status->setUser($jp);
+        $manager->persist($status);
+
+        $status = new StatusDisease();
+        $status->setCreatedAt(new \DateTime('now'));
+        $status->setBeaten(false);
+        $status->setDisease($meningite);
         $status->setUser($jp);
         $manager->persist($status);
 

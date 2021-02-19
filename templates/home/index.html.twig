@@ -3,168 +3,228 @@
 {% block title %}Home {% endblock title %}
 
 {% block body %}
-<div class="container">
-    <div class="row">
-        <div class="col-sm-8">
-            <h1 class="text-center">Tp final !!! Tous contre le corona</h1>
-            <h2 class="text-center">a rendre en merge request sur a branche Tpfinal</h2>
-            <h2 class="text-center">1 question = 1 commit</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+                <h1 class="text-center">Tp final !!! Tous contre le corona</h1>
+                <h2 class="text-center">a rendre en merge request sur a branche Tpfinal</h2>
+                <h2 class="text-center">1 question = 1 commit</h2>
+            </div>
+            <div class="col-sm-4">
+                {% if is_granted('ROLE_USER') %}
+                    My name is : {{ app.user.username }}
+                {% else %}
+                    <a href="{{ path("app_login") }}">Login</a>
+                {% endif %}
+            </div>
         </div>
-        <div class="col-sm-4">
-            {% if is_granted('ROLE_USER') %}
-                My name is : {{ app.user.username }}
-            {% else %}
-                <a href="{{ path("app_login") }}">Login</a>
-            {% endif %}
-        </div>
-    </div>
 
-    <img src="https://docs.google.com/drawings/d/e/2PACX-1vQNeHcPrSDjVpHrizOWMqHSy0X9iCIMNgI2iwA83NhDKDC9jD0jFAMGa6kXScfMt_NPF8OsvjA-X81E/pub?w=960&amp;h=720">
+        <img src="https://docs.google.com/drawings/d/e/2PACX-1vQNeHcPrSDjVpHrizOWMqHSy0X9iCIMNgI2iwA83NhDKDC9jD0jFAMGa6kXScfMt_NPF8OsvjA-X81E/pub?w=960&amp;h=720">
 
-    <div class="row">
-        <div class="col-sm-12">
-            <h4>Users <span class="helper">(1)</span></h4>
-            <ul class="list-group list-group-horizontal">
-                {% for user in users %}
-                    <li class="list-group-item">{{ user.username }} - {{ user.hospital.name }}</li>
-                {% endfor %}
-            </ul>
+        <div class="row">
+            <div class="col-sm-12">
+                <h4>Users <span class="helper">(1)</span></h4>
+                <ul class="list-group list-group-horizontal">
+                    {% for user in users %}
+                        <li class="list-group-item">{{ user.username }} - {{ user.hospital.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <h4>statusDisease</h4>
-            <ul class="list-group list-group-horizontal">
-                {% for statusDisease in statusDiseases %}
-                    <li class="list-group-item">{{ statusDisease.user.username }} - {{ statusDisease.disease.name }}</li>
-                {% endfor %}
-            </ul>
+        <div class="row">
+            <div class="col-sm-12">
+                <h4>statusDisease</h4>
+                <ul class="list-group list-group-horizontal">
+                    {% for statusDisease in statusDiseases %}
+                        <li class="list-group-item">{{ statusDisease.user.username }}
+                            - {{ statusDisease.disease.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <h4>Diseases <span class="helper">(3)</span></h4>
-            <ul class="list-group list-group-horizontal">
-                {% for disease in diseases %}
-                    <li class="list-group-item">{{ disease.name }} - 1/{{ disease.risk }}</li>
-                {% endfor %}
-            </ul>
+        <div class="row">
+            <div class="col-sm-12">
+                <h4>Diseases <span class="helper">(3)</span></h4>
+                <ul class="list-group list-group-horizontal">
+                    {% for disease in diseases %}
+                        <li class="list-group-item">{{ disease.name }} - 1/{{ disease.risk }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <h4>Treatments </h4>
-            <ul class="list-group list-group-horizontal">
-                {% for treatment in treatments %}
-                    <li class="list-group-item">{{ treatment.name }} - {{ treatment.dosage }}</li>
-                {% endfor %}
-            </ul>
+        <div class="row">
+            <div class="col-sm-12">
+                <h4>Treatments </h4>
+                <ul class="list-group list-group-horizontal">
+                    {% for treatment in treatments %}
+                        <li class="list-group-item">{{ treatment.name }} - {{ treatment.dosage }}
+                            pour {{ treatment.Disease.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
-    </div>
 
-    <hr><hr>
+        <hr>
+        <hr>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <h4>Mon parcours de soins <span class="helper">(4)</span></h4>
-            <h3>Maladie(s) du patient</h3>
-            <ul>
-                <li>
-                    Maladie X avec le traitement Y comportant N nombre de prise du traitement nécessaire pour guérisson <span class="helper">(8)</span>
-                    <ul>
-                        <li>Historique de mes traitements de la maladie X</li>
-                        <li><a class="btn btn-primary" href="{{ path('take_treatment_new') }}">Take traitement (5)</a></li>
-                        <li><span class="helper">(7)</span>Edit de mon TakeTraitement<a class="btn btn-primary" href="{{ path('take_treatment_edit', {'id': 1}) }}">Editer </a></li>
-                    </ul>
-                </li>
-            </ul>
+        <div class="row">
+            <div class="col-sm-12">
+                <h4>Mon parcours de soins <span class="helper">(4)</span></h4>
+                <h3>Maladie(s) du patient</h3>
+                <ul>
+                    <li>
+                        Cancer du color : Traitement chimio standart : Prise pour etre guérri 5<span
+                                class="helper">(8)</span>
+                        <ul>
+                            <li>Historique des prises de mon traitement status : 2 / 5</li>
+                            <li>Chimio faites le 18/02/2021 à 14h32 : OK</li>
+                            <li>Chimio faites le 14/02/2021 à 11h32 : ECHEC</li>
+                            <li>Chimio faites le 12/02/2021 à 12h32 : OK</li>
+                            <li><a class="btn btn-primary" href="{{ path('take_treatment_new') }}">Take traitement (5)
+                                    pour la maladie cancer du colon</a></li>
+                            <li><span class="helper">(7)</span>Edit de mon TakeTraitement<a class="btn btn-primary"
+                                                                                            href="{{ path('take_treatment_edit', {'id': 1}) }}">Editer </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        Encode une autres maladie et belote<span class="helper">(8)</span>
+                        <ul>
+                            <li>et Rebelotte</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <hr>
+        <div class="row">
+            <div class="col-sm-12">
+                <ul>
+                    <li>
+                        <span class="question">1</span> - Modifier la liste des utilisateur <span
+                                class="helper">(1)</span> pour la trier par Hospital:name asc, et User:username asc
+                        <span class="point">0.5 pt ( 5Min )</span>
+                    </li>
+                    <li>
+                        <span class="question">2</span> - Créer une macro pour afficher le risque d'une maladie de
+                        différente couleur et l'utiliser sur la liste <span class="helper">(3)</span><br/>
+                        Carre fond noir avec la couleur du texte en : Risque 1/10000 = vert - 1/1000 = jaune - 1/50 =
+                        bleu - 1/20 = Rouge <span class="point">0.5 pt ( 10Min )</span>
+                    </li>
+                    <li>
+                        <span class="question">3</span> - Sécuriser le controller TakeTreatmentController pour le
+                        ROLE_USER <span class="point">0.5 pt ( 5Min )</span>
+                    </li>
+                    <li>
+                        <span class="question">4.1</span> - Modifier la vue du parcours de soin de l'utilisateur
+                        connecté <span class="helper">(4)</span> avec ses propres maladies et l'historiques des ses
+                        traitements
+                        et ne l'afficher si et seulement si un utilisateur est connecté. ( prenez exemple sur le le
+                        modéle ). Utiliser un service métier ( trier les maladies par name:asc et la prise de traitment
+                        de takeTraitment:created : desc <span class="point">2.5 pt( 30Min )</span>
+                    </li>
+                    <li>
+                        <span class="question">4.2</span> Créer un type de formulaire pour TakeTreatment:Treatment pour
+                        qu'il soit un input radio trié par treatment:name asc<span class="point">1 pt( 10Min )</span>
+                        <hr><hr>
+                    </li>
+                    <li>
+                        <span class="question">5</span> - Modifier le formulaire prendre un traitement <span
+                                class="helper">(5)</span> pour que seul le champ treatment <span class="helper">(question 4.2)</span>
+                        soit visible avec un bouton "prendre mon traitement" en tant que bouton de validation.
+                        Sur cette page ajouter un bouton de redirection "Annuler" pour retourner à l'accueil.<br/>
+                        Ajouter un feedback pour informer l'utilisateur de la prise en compte de l'action.<br/>
+                        <strong>( attention 1 ) seuls les traitements pour la maladie selectionnée de son hopital
+                            doivent être affichés ( ici dans notre exemple on fois prendre le traitement pour le cancer du colon )</strong>
+                        <br /><strong>( attention 2 ) le formulaire dans la vue dois etre de
+                            type {% verbatim %}{{ form(form) }}{% endverbatim %}</strong>
+                        <span class="point">2.5 pt ( 30Min )</span>
+                    </li>
+                    <li>
+                        <span class="question">6</span> - Modifier la fonction <span
+                                class="helper">( question 5 )</span> en
+                        utilisant les subscribers pour persister l'entité <span class="point">1.5 pt ( 20Min )</span>
+                    </li>
+                    <li>
+                        <span class="question">7</span> - Modifier la fonction <span
+                                class="helper">( question 5 )</span> pour
+                        ajouter une possiblité que le traitement échoue (TakeTreatment:fail = true) de 40% en utilisant
+                        les subscribers.<br/>
+                        En clair, quand je clique sur le bouton "prendre mon traitement" dans le formulaire il y a 40 %
+                        de chance que le traitement échoue. <span class="point">0.5 pt ( 10Min )</span>
+                        <hr><hr>
+                    </li>
+                    <li>
+                        <span class="question">8</span> - Modifier la fonction <span
+                                class="helper">( question 5 )</span> pour que
+                        lorsque le nombre total de TakeTreatment réussi ( fail = 0 ) est égale à la posologie du
+                        traitement ( champ dosage ) de la maladie,
+                        cette maladie est vaincue et le patient est sain et sauf. ( toujours avec les subscribers )
+                        <span class="point">1 pt ( 20Min )</span>
+                    </li>
+                    <li>
+                        <span class="question">9</span> - Modifier la fonction et le formulaire des traitements <span
+                                class="helper">(7)</span> pour que seul le commentaire
+                        apparaise et aussi le nom du bouton "Editer mon traitement" <span
+                                class="point">1 pt ( 10Min )</span>
+                    </li>
+                    <li>
+                        <span class="question">10</span> - Créer un voter pour sécuriser TakeTreatment:Edit pour qu'il
+                        soit modifiable par son patient quand le traitment est réussi.<br/>
+                        Et par les ROLE_MEDECIN lorsqu'il est en echec et l'implémenter dans la vue <span
+                                class="helper">(8)</span>. <span class="point">1.5 pt ( 15Min )</span>
+                    </li>
+                    <li>
+                        <span class="question">11</span> - Créer une commande qui demande une maladie de façon
+                        intéractive et qui liste tous les patients guéris de cette maladie
+                        ou si il n'y en a pas afficher "pas encore de guérison en vue" en utilisant un listener. <span
+                                class="point">2 pt ( 15Min )</span>
+                        <hr><hr>
+                    </li>
+                    {#
+                    <li>
+                        <span class="question">12</span> - Créer une extension Twig qui prend en paramètre la maladie du patient
+                        et qui lui donne le nombre de traitement restant ou "vaincu" et l'utiliser dans <span class="helper">(8)</span>  <span class="point"> 1.5 pt ( 10Min )</span>
+                    </li>
+                    #}
+                    <li>
+                        <span class="question">12</span> - Créer un formtype RiskType qui réprésente un select avec
+                        comme valeur <br/>
+                        1/10000 = 10000 <img width="50" class="img-thumbnail" src="{{ asset('images/10000.png') }}"/>|
+                        1/1000 = 1000 <img width="50" class="img-thumbnail" src="{{ asset('images/1000.png') }}"/> |
+                        1/50 = 50 <img width="50" class="img-thumbnail" src="{{ asset('images/50.png') }}"/> |
+                        1/20 = 20 <img width="50" class="img-thumbnail" src="{{ asset('images/20.png') }}"/>
+                        <br/> {# et modifier sa vue pour que lorsqu'on modifie la valeur et au chargement de la page l'image associée s'affiche.<br /> #}
+                        Et l'utiliser dans DiseaseType ici : <a href="{{ path('disease_new') }}">Disease new</a>
+                        <br/> Adapter la macro de la question<span class="helper"> 2 </span> en utilisant les images
+                        ci-dessus.<span class="point">1 pt( 10Min )</span>
+                    </li>
+                    <li>
+                        <span class="question">13</span> - Tester unitairement la fonction de la question <span
+                                class="helper"> 7 -- </span><span class="point"> 2 pt ( 20Min )</span>
+                    </li>
+                    <li>
+                        <span class="question">14</span> - Créer une contrainte de validation sur TakeTreatment et la
+                        mettre en place pour que
+                        si la maladie a un risque inférieur ou égale à 50 on ne peut pas prendre plus de 1.5 fois le
+                        nombre de prise du traitement nécessaire pour guérisson ( dosage ) peut importe le résultat du
+                        takeTreatment ( fail )
+                        <span class="point"> 1.5 pt ( 20Min )</span>
+                        <hr>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <hr>
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>Be safe and take care of you :)</h3>
+            </div>
         </div>
     </div>
-    <hr><hr>
-    <div class="row">
-        <div class="col-sm-12">
-            <ul>
-                <li>
-                    <span class="question">1</span> - Modifier la liste d'utilisateur <span class="helper">(1)</span> pour la trier par hospital asc, et username asc  <span class="point">1 pt ( 5Min )</span>
-                </li>
-                <li>
-                    <span class="question">2</span> - Créer une macro pour afficher le risque d'une maladie de différente couleur et l'utiliser sur la liste <span class="helper">(3)</span><br />
-                    Risque 1/10000 = vert - 1/1000 = jaune - 1/50 = bleu - 1/20 = Rouge <span class="point">1 pt ( 10Min )</span>
-                </li>
-                <li>
-                    <span class="question">3</span> - Sécuriser le controller TakeTreatmentController pour le ROLE_USER <span class="point">1 pt ( 5Min )</span>
-                </li>
-                <li>
-                    <span class="question">4</span> - Modifier le parcours de soin de l'utilisateur connecté <span class="helper">(4)</span> avec ses propres maladies et l'historiques des ses traitements
-                    et ne l'afficher si et seulement si l'utilisateur est connecté, comme le modéle  <span class="point">2 pt( 10Min )</span>
-                </li>
-                <li>
-                    <span class="question">5</span> - Modifier le formulaire prendre un traitement <span class="helper">(5)</span> pour que seul le champ treatment soit visible avec un bouton "prendre mon traitement"
-                    ( attention seuls les traitements pour la maladie selectionnée et son hopital doivent être affichés possible )<br />
-                    Sur cette page ajouter un bouton de redirection "Annuler" pour retourner à l'accueil.<br />
-                    Après validation redirection vers la page d'accueil<br /> <span class="point">2 pt ( 20Min )</span>
-                </li>
-                <li>
-                    <span class="question">6</span> - Modifier la fonction <span class="helper">(5)</span> en utilisant les subscribers pour persister l'entité  <span class="point">1.5 pt ( 10Min )</span>
-                    <hr>
-                </li>
-                <li>
-                    <span class="question">7</span> - Modifier la fonction <span class="helper">(5)</span> pour ajouter une possiblité que le traitement échoue (4 chances sur 10 que fail passe à true) en utilisant les subscribers.<br />
-                    En clair, quand je clique sur le bouton "prendre mon traitement" dans le formulaire il y a 40 % de chance que le traitement échoue.  <span class="point">1 pt ( 10Min )</span>
-                </li>
-                <li>
-                    <span class="question">8</span> - Modifier la fonction <span class="helper">(5)</span> pour que lorsque le nombre total de TakeTreatment réussi ( fail = 0 ) est égale à la posologie du traitement ( champ dosage ) de la maladie,
-                    cette maladie est vaincue et le patient est sain et sauf.  ( toujours avec les subscribers ) <span class="point">1 pt ( 10Min )</span>
-                </li>
-                <li>
-                    <span class="question">9</span> - Modifier la fonction et le formulaire  des traitements <span class="helper">(7)</span> pour que seul le commentaire
-                    apparaise et aussi le nom du bouton "Editer mon traitement"  <span class="point">1 pt ( 10Min )</span>
-                </li>
-                <li>
-                    <span class="question">10</span> - Créer un voter pour sécuriser TakeTreatment:Edit pour qu'il soit modifiable par son patient quand le traitment est réussi.<br />
-                    Et par les ROLE_MEDECIN lorsqu'il est en echec et l'implémenter. <span class="point">2 pt ( 15Min )</span>
-                </li>
-                <li>
-                    <span class="question">11</span> - Créer une commande qui demande une maladie de façon intéractive et qui liste tous les patients guéris de cette maladie
-                    ou si il n'y en a pas afficher "pas encore de guérison en vue" en utilisant un listener. <span class="point">2 pt ( 15Min )</span>
-                    <hr>
-                </li>
-                {#
-                <li>
-                    <span class="question">12</span> - Créer une extension Twig qui prend en paramètre la maladie du patient
-                    et qui lui donne le nombre de traitement restant ou "vaincu" et l'utiliser dans <span class="helper">(8)</span>  <span class="point"> 1.5 pt ( 10Min )</span>
-                </li>
-                #}
-                <li>
-                    <span class="question">12</span> - Créer un formtype RiskType qui réprésente un select avec comme valeur <br />
-                    1/10000 = 10000 <img width="50" class="img-thumbnail" src="{{ asset('images/10000.png') }}"/>|
-                    1/1000 = 1000 <img width="50" class="img-thumbnail" src="{{ asset('images/1000.png') }}"/> |
-                    1/50 = 50 <img width="50" class="img-thumbnail" src="{{ asset('images/50.png') }}"/> |
-                    1/20 = 20 <img width="50" class="img-thumbnail" src="{{ asset('images/20.png') }}"/>
-                    <br /> {# et modifier sa vue pour que lorsqu'on modifie la valeur et au chargement de la page l'image associée s'affiche.<br /> #}
-                    Et l'utiliser dans DiseaseType ici : <a href="{{ path('disease_new') }}">Disease new</a>
-                    <br /> Adapter la macro de la question<span class="helper"> 2 </span> en utilisant les images ci-dessus.<span class="point">2 pt( 15Min )</span>
-                </li>
-                <li>
-                    <span class="question">13</span> - Tester unitairement la fonction de la question <span class="helper"> 7 -- </span><span class="point"> 2 pt ( 15Min )</span>
-                </li>
-                <li>
-                    <span class="question">14</span> - Créer une contrainte de validation sur TakeTreatment et la mettre en place pour que
-                    si la maladie a un risque inférieur ou égale à 50 on ne peut pas prendre plus de 1.5 fois le nombre de prise du traitement nécessaire pour guérisson ( dosage ) peut importe le résultat du takeTreatment ( fail )
-                    <span class="point"> 2 pt ( 10Min )</span>
-                    <hr>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <hr><hr>
-    <div class="row">
-        <div class="col-sm-12">
-            <h3>Be safe and take care of you :)</h3>
-        </div>
-    </div>
-</div>
 {% endblock body %}
