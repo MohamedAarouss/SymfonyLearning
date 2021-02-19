@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\TakeTreatment;
 use App\Form\TakeTreatmentType;
 use App\Repository\TakeTreatmentRepository;
+use App\Security\Voter\VoterAccess;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,13 +66,18 @@ class TakeTreatmentController extends AbstractController
      */
     public function edit(Request $request, TakeTreatment $takeTreatment): Response
     {
+        if($this->isGranted(VoterAccess::TAKE_TREATMENT_EDIT, $takeTreatment) === false){
+            $this->addFlash('danger', 'Vous ne pouvez accéder à ce personnage');
+            return $this->redirect($this->generateUrl('home_index'));
+        }
+
         $form = $this->createForm(TakeTreatmentType::class, $takeTreatment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('take_treatment_index');
+            return $this->redirectToRoute('home_index');
         }
 
         return $this->render('take_treatment/edit.html.twig', [

@@ -36,7 +36,6 @@ class TakeTreatmentType extends AbstractType
             ->add('fail')
             ->add('Traitment', TreatmentTypeType::class)
             ->add('StatusDisease')
-            ->add('submit', SubmitType::class, ['label' => 'Prendre mon traitement'])
             ->add('cancel', SubmitType::class, ['label' => 'Retour a l\'accueil'])
             ->addEventListener(
                 FormEvents::PRE_SET_DATA,
@@ -69,6 +68,7 @@ class TakeTreatmentType extends AbstractType
 //                        ->where('sd.User = :user')
 //                        ->setParameter('user', $this->tokenStorage->getToken()->getUser());
                 },]);
+            $form->add('submit', SubmitType::class, ['label' => 'Prendre mon traitement']);
         }
         else {
             $form->remove('createdAt');
