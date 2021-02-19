@@ -70,6 +70,13 @@ class TakeTreatmentType extends AbstractType
 //                        ->setParameter('user', $this->tokenStorage->getToken()->getUser());
                 },]);
         }
+        else {
+            $form->remove('createdAt');
+            $form->remove('fail');
+            $form->remove('Traitment');
+            $form->remove('StatusDisease');
+            $form->add('submit', SubmitType::class, ['label' => 'Editer']);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)
