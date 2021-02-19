@@ -14,3 +14,20 @@
         {% endif %}
     </span>
 {% endmacro %}
+
+{% macro diseaseImg(risk) %}
+    <img
+        {% if risk is same as(10000) %}
+            src="images/10000.png" width="40%">
+        {% endif %}
+        {% if risk is same as(1000) %}
+            src="images/1000.png" width="40%">
+        {% endif %}
+        {% if risk is same as(50) %}
+            src="images/50.png" width="40%">
+        {% endif %}
+        {% if risk is same as(20) %}
+            src="images/20.png" width="40%">
+        {% endif %}
+    </img>
+{% endmacro %}
