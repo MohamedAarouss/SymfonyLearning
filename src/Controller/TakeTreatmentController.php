@@ -67,7 +67,7 @@ class TakeTreatmentController extends AbstractController
     public function edit(Request $request, TakeTreatment $takeTreatment): Response
     {
         if($this->isGranted(VoterAccess::TAKE_TREATMENT_EDIT, $takeTreatment) === false){
-            $this->addFlash('danger', 'Vous ne pouvez accéder à ce personnage');
+            $this->addFlash('danger', 'Vous ne pouvez éditer ce traitement');
             return $this->redirect($this->generateUrl('home_index'));
         }
 

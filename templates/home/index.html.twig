@@ -85,11 +85,13 @@
                             <li>Chimio faites le 14/02/2021 à 11h32 : ECHEC</li>
                             <li>Chimio faites le 12/02/2021 à 12h32 : OK</li>
                             <li><a class="btn btn-primary" href="{{ path('take_treatment_new') }}">Take traitement (5)
-                                    pour la maladie cancer du colon</a></li>
-                            {% if is_granted(constant('App\\Security\\Voter\\VoterAccess::TAKE_TREATMENT_EDIT')) %}
+                                    pour la maladie cancer du colon</a>
+                            </li>
+                            {% if is_granted(constant('App\\Security\\Voter\\VoterAccess::TAKE_TREATMENT_EDIT'), treatments) %}
                                 <li>
                                     <span class="helper">(7)</span>Edit de mon TakeTraitement
-                                    <a class="btn btn-primary" href="{{ path('take_treatment_edit', {'id': 1}) }}">Editer </a>
+                                    <a class="btn btn-primary" href="{{ path('take_treatment_edit', {'id': 1}) }}">Editer Traitement 1 </a>
+                                    <a class="btn btn-primary" href="{{ path('take_treatment_edit', {'id': 2}) }}">Editer Traitement 2 </a>
                                 </li>
                             {% endif %}
                         </ul>

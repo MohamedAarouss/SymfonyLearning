@@ -42,7 +42,7 @@ class CharacterVoter extends Voter
             return true;
         }
 
-        if($subject->getFail() === true  && $this->security->isGranted('ROLE_MEDECIN') === true){
+        if($subject->getFail() === true  && $this->security->isGranted("ROLE_MEDECIN") === true){
             return true;
         }
 
