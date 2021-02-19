@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\TakeTreatment;
+use App\Form\Type\TreatmentTypeType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,7 +16,7 @@ class TakeTreatmentType extends AbstractType
             ->add('createdAt')
             ->add('content')
             ->add('fail')
-            ->add('Traitment')
+            ->add('Traitment', TreatmentTypeType::class)
             ->add('StatusDisease')
         ;
     }
